@@ -1,0 +1,24 @@
+<header class="relative flex items-center bg-blue-800 h-24 justify-between">
+  <div class="flex items-center gap-x-4 p-2">
+    <img ngSrc="../../../../assets/logo-b.png" alt="logo-b" width="90" height="90" class="h-22 w-22 p-1" priority>
+    <h1 class="text-3xl font-thin text-white">PLENA-Mente</h1>
+  </div>
+  <nav class="absolute left-1/2 transform -translate-x-1/2">
+    <ul class="text-white flex text-4xl">
+      <i class="ti ti-calendar mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
+      <i class="ti ti-clipboard-smile mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
+      <i class="ti ti-door mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer "
+        [routerLink]="'/rooms'"></i>
+      <i class="ti ti-packages mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
+        [routerLink]="'/storage'"></i>
+      <i class="ti ti-cash mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
+      <i class="ti ti-users mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
+        [routerLink]="'/users'"></i>
+      <i class="ti ti-cash-register mx-5 hover:scale-125 duration-150 transition-transform"></i>
+      <i class="ti ti-bulb mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
+        [routerLink]="'/areas'"></i>
+    </ul>
+  </nav>
+  <i class="ti ti-logout text-white text-4xl mr-10 hover:scale-125 duration-150 transition-transform cursor-pointer"
+    (click)="logout()"></i>
+</header>

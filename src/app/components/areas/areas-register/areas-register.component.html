@@ -1,0 +1,51 @@
+<div class="flex justify-center items-center h-screen bg-gradient-to-b from-blue-100 to-white">
+  <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h2 class="text-2xl font-bold text-blue-600 text-center mb-6">Registrar Área de Intervención</h2>
+
+    <!-- Nombre del área -->
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium text-gray-700">Nombre del área</label>
+      <input
+        type="text"
+        [(ngModel)]="name"
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+        placeholder="Nombre del área"
+      />
+      <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-500">
+        <!-- Ícono de área -->
+        <i class="ti ti-bulb"></i>
+      </span>
+    </div>
+
+    <!-- Descripción -->
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium text-gray-700">Descripción</label>
+      <textarea
+        [(ngModel)]="description"
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+        placeholder="Descripción del área"
+        rows="3"
+      ></textarea>
+      <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-blue-500">
+        <!-- Ícono de descripción -->
+        <i class="fas fa-align-left"></i>
+      </span>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-between">
+      <button
+        (click)="onSubmit()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md shadow-md w-full mr-2"
+      >
+        Guardar
+      </button>
+      <button
+        (click)="onCancel()"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-2 px-4 rounded-md shadow-md w-full"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

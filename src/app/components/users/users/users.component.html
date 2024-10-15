@@ -1,0 +1,65 @@
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg mt-12">
+  <!-- Botón de agregar -->
+  <div class="flex justify-end mb-8">
+    <button class="bg-blue-800 text-white px-6 py-3 rounded-lg text-lg hover:scale-110 transition duration-150" [routerLink]="'/users/register'">
+      Agregar Usuario
+    </button>
+  </div>
+
+  <!-- Filtros y ordenación -->
+  <div class="flex justify-between items-center bg-gray-100 p-6 rounded-lg mb-8 space-x-8">
+    <div class="w-1/4">
+      <label for="buscar" class="block text-lg font-medium mb-2">Buscar:</label>
+      <input id="buscar" type="text" class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Buscar por nombre" />
+    </div>
+
+    <div class="w-1/4">
+      <label for="filtrar" class="block text-lg font-medium mb-2">Filtrar por Rol:</label>
+      <select id="filtrar" class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="selectedRole" (change)="onFilter()">
+        <option value="">Todos los roles</option>
+        <option value="ADMIN">Admin</option>
+        <option value="THERAPIST">Terapeuta</option>
+        <option value="SECRETARY">Secretaria</option>
+      </select>
+    </div>
+
+    <div class="w-1/4">
+      <label for="ordenar" class="block text-lg font-medium mb-2">Ordenar:</label>
+      <select id="ordenar" class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="sortOrder" (change)="onSort()">
+        <option value="asc">Alfabético</option>
+        <option value="desc">Inverso</option>
+      </select>
+    </div>
+
+    <div class="w-1/4">
+      <label for="mostrar" class="block text-lg font-medium mb-2">Mostrar:</label>
+      <select id="mostrar" class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Grid de Usuarios -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div *ngFor="let user of filteredUsers" class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150 relative">
+      <!-- Indicador decorativo -->
+      <div
+        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 w-4 h-4 rounded-full border-2 border-white">
+      </div>
+
+      <p class="text-xl font-semibold mt-4">{{ user.username }}</p>
+      <p class="text-black-500 mt-4">Teléfono: {{ user.phone }}</p>
+      <a [routerLink]="['/users/details', user.id]" class="text-blue-600 underline mt-6 block hover:text-blue-900">Ver Detalles</a>
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-center mt-10 space-x-4">
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(1)" [disabled]="currentPage === 1">&lt;&lt;</button>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+    <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= Math.ceil(filteredUsers.length / itemsPerPage)">&gt;</button>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(Math.ceil(filteredUsers.length / itemsPerPage))" [disabled]="currentPage >= Math.ceil(filteredUsers.length / itemsPerPage)">&gt;&gt;</button>
+  </div>
+</div>

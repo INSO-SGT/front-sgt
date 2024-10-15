@@ -1,0 +1,109 @@
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+  <!-- Botón de agregar -->
+  <div class="flex justify-between mb-6">
+    <button
+      class="bg-blue-800 text-white px-6 py-2 rounded-lg text-lg hover:scale-110 transition duration-150"
+      [routerLink]="'/rooms/add-room'"
+    >
+      Agregar Ambiente
+    </button>
+
+    <div class="flex space-x-4">
+      <!-- Filtro terapéutico -->
+      <div>
+        <label class="block text-lg font-medium mb-1">Filtrar</label>
+        <select
+          class="border border-gray-300 rounded-lg w-full px-3 py-2"
+          [(ngModel)]="therapeuticFilter"
+          (change)="onFilter()"
+        >
+          <option value="">Todos</option>
+          <option value="yes">Terapéutico</option>
+          <option value="no">No Terapéutico</option>
+        </select>
+      </div>
+
+      <!-- Filtro de búsqueda -->
+      <div>
+        <label class="block text-lg font-medium mb-1">Buscar</label>
+        <input
+          type="text"
+          class="border border-gray-300 rounded-lg w-full px-3 py-2"
+          placeholder="Buscar por nombre"
+          [(ngModel)]="searchQuery"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <!-- Paginación -->
+      <div>
+        <label class="block text-lg font-medium mb-1">Mostrar</label>
+        <select
+          class="border border-gray-300 rounded-lg w-full px-3 py-2"
+          [(ngModel)]="itemsPerPage"
+          (change)="paginate()"
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid de Ambientes -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div
+      *ngFor="let room of filteredRooms"
+      class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150 relative"
+    >
+      <p class="text-xl font-semibold">{{ room.name }}</p>
+      <p class="text-black-500 mt-2">{{ room.address }}</p>
+      <p class="text-gray-700 mt-2">
+        Terapéutico: {{ room.isTherapeutic ? 'Sí' : 'No' }}
+      </p>
+      <a
+        [routerLink]="['/rooms/details', room.idRoom]"
+        class="text-blue-600 underline mt-4 block hover:text-blue-900"
+      >
+        Ir
+      </a>
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-center mt-6 space-x-2">
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(1)"
+      [disabled]="currentPage === 1"
+    >
+      &lt;&lt;
+    </button>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      &lt;
+    </button>
+    <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="
+        currentPage >= Math.ceil(filteredRooms.length / itemsPerPage)
+      "
+    >
+      &gt;
+    </button>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(Math.ceil(filteredRooms.length / itemsPerPage))"
+      [disabled]="
+        currentPage >= Math.ceil(filteredRooms.length / itemsPerPage)
+      "
+    >
+      &gt;&gt;
+    </button>
+  </div>
+</div>

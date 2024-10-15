@@ -1,0 +1,29 @@
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
+    <!-- Botón de agregar área -->
+    <div class="flex justify-end mb-6">
+        <button class="bg-blue-800 text-white px-6 py-2 rounded-lg text-lg hover:scale-110 transition duration-150" [routerLink]="'/areas/areas-register'">
+            Agregar Área
+        </button>
+    </div>
+
+    <!-- Lista de Áreas de Intervención -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div *ngFor="let area of filteredAreas" class="bg-gray-100 shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150">
+            <h2 class="text-xl font-semibold mb-2">{{ area.name }}</h2>
+            <p class="text-gray-500 mb-4">{{ area.description }}</p>
+            <div class="flex justify-between">
+                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition">Editar</button>
+                <button class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="flex justify-center mt-6 space-x-2">
+        <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(1)" [disabled]="currentPage === 1">&lt;&lt;</button>
+        <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+        <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
+        <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)">&gt;</button>
+        <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(Math.ceil(filteredAreas.length / itemsPerPage))" [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)">&gt;&gt;</button>
+    </div>
+</div>

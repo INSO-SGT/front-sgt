@@ -1,0 +1,77 @@
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg mt-12">
+  <!-- Botón de agregar -->
+  <div class="flex justify-between mb-6">
+    <button class="bg-blue-800 text-white px-6 py-3 rounded-lg text-lg hover:scale-110 transition duration-150"
+      [routerLink]="'/storage/material-register'">
+      Agregar Material
+    </button>
+
+    <div class="flex space-x-4">
+      <!-- Filtro de búsqueda -->
+      <div>
+        <label class="block text-lg font-medium mb-1">Buscar</label>
+        <input type="text" class="border border-gray-300 rounded-lg w-full px-3 py-2" placeholder="Buscar material"
+          [(ngModel)]="searchTerm" (input)="onSearch()" />
+      </div>
+
+      <!-- Paginación: cantidad de elementos por página -->
+      <div>
+        <label class="block text-lg font-medium mb-1">Mostrar</label>
+        <select class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="itemsPerPage"
+          (change)="paginate()">
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de materiales -->
+  <table class="min-w-full table-auto">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Acciones</th>
+        <th class="px-4 py-2">ID MATERIAL</th>
+        <th class="px-4 py-2">NOMBRE</th>
+        <th class="px-4 py-2">STOCK</th>
+        <th class="px-4 py-2">ESTADO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let material of paginatedMaterials">
+        <td>
+          <button (click)="navigateToEdit(material.idMaterial)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+        </td>
+        <td class="border px-4 py-2">{{ material.idMaterial }}</td>
+        <td class="border px-4 py-2">{{ material.nombre }}</td>
+        <td class="border px-4 py-2">{{ material.stock }}</td>
+        <td class="border px-4 py-2">{{ material.estado }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  <div class="flex justify-center mt-6 space-x-2">
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(1)" [disabled]="currentPage === 1">
+      &lt;&lt;
+    </button>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1">
+      &lt;
+    </button>
+    <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)" [disabled]="
+        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)
+      ">
+      &gt;
+    </button>
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(Math.ceil(filteredMaterials.length / itemsPerPage))" [disabled]="
+        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)
+      ">
+      &gt;&gt;
+    </button>
+  </div>
+</div>

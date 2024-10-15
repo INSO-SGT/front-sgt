@@ -1,0 +1,23 @@
+<section class="flex flex-col items-center mt-28">
+    <div class="flex items-center gap-x-4 mb-20">
+        <img ngSrc="assets/logo-n.webp" alt="logo-n" width="112" height="112" class="h-28 w-28" priority>
+        <h1 class="text-3xl font-thin">PLENA-Mente</h1>
+    </div>
+    <h2 class="text-2xl font-thin mb-10">Inicio de Sesión</h2>
+
+    <div class="mb-8">
+        <h3 class="ml-2">Usuario</h3>
+        <div class="flex items-center border-2 border-black rounded-xl">
+            <input [(ngModel)]="username" class="outline-none text-xl w-80" type="text" placeholder=" Usuario">
+            <i class="ti ti-user text-4xl"></i>
+        </div>
+    </div>
+    <div class="mb-20">
+        <h3 class="ml-2">Contraseña</h3>
+        <div class="flex items-center border-2 border-black rounded-xl">
+            <input [(ngModel)]="password" class="outline-none text-xl w-80" type="password" placeholder=" Contraseña">
+            <i class="ti ti-lock text-4xl"></i>
+        </div>
+    </div>
+    <button (click)="login()" class="bg-blue-800 text-white py-4 px-20 rounded-lg">INICIAR SESIÓN</button>
+</section>
