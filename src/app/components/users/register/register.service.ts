@@ -14,8 +14,8 @@ export class RegisterService {
 
   registerUser(data: RegisterUser): Observable<any> {
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
+
     return this.http.post<any>(this.apiUrl, data, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error instanceof ProgressEvent) {
@@ -27,6 +27,6 @@ export class RegisterService {
       })
     );
   }
-  
-  
+
+
 }
