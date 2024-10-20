@@ -26,8 +26,7 @@ export class MaterialRegisterComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      idMaterial: ['', [Validators.required, Validators.maxLength(4)]],
-      nombre: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
       estado: ['', Validators.required],
       stock: [0, [Validators.required, Validators.min(0)]],
       esCompleto: [false],
@@ -55,9 +54,7 @@ export class MaterialRegisterComponent {
   }
 
   onCancel(): void {
-    const confirmCancel = confirm(
-      '¿Estás seguro de que deseas cancelar el registro?'
-    );
+    const confirmCancel = confirm('¿Estás seguro de que deseas cancelar el registro?');
     if (confirmCancel) {
       this.registerForm.reset();
       this.router.navigate(['/storage']);

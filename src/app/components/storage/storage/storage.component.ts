@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { Material } from '../material';
 import { StorageService } from '../storage.service';
 import { FormsModule } from '@angular/forms';
@@ -10,14 +10,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './storage.component.html',
-  styleUrl: './storage.component.css',
+  styleUrls: ['./storage.component.css'],
 })
 export class StorageComponent implements OnInit {
   materials: Material[] = [];
   filteredMaterials: Material[] = [];
   searchTerm: string = '';
-  itemsPerPage: number = 10; // Elementos por página
-  currentPage: number = 1; // Página actual
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
   paginatedMaterials: Material[] = [];
 
   constructor(private storageService: StorageService, private router: Router) {}
@@ -40,13 +40,8 @@ export class StorageComponent implements OnInit {
     } else {
       this.filteredMaterials = this.materials.filter(
         (material) =>
-          material.nombre
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          material.idMaterial
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          material.estado?.toLowerCase().includes(this.searchTerm.toLowerCase())
+          material.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          material.estado.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
     this.paginate();
@@ -65,7 +60,7 @@ export class StorageComponent implements OnInit {
     this.paginate();
   }
 
-  navigateToEdit(id: string): void {
+  navigateToEdit(id: string | undefined): void {
     this.router.navigate([`/storage/material-edit`, id]);
   }
 
