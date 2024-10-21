@@ -12,9 +12,10 @@ export class StorageService {
 
   constructor(private http: HttpClient) {}
 
-  registerMaterial(material: Material): Observable<Material> {
+  registerMaterial(material: Omit<Material, 'idMaterial'>): Observable<Material> {
     return this.http.post<Material>(`${this.apiUrl}/register`, material);
   }
+
 
   getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);

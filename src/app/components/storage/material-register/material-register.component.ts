@@ -26,7 +26,7 @@ export class MaterialRegisterComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      nombre: ['', Validators.required],
       estado: ['', Validators.required],
       stock: [0, [Validators.required, Validators.min(0)]],
       esCompleto: [false],
@@ -37,7 +37,16 @@ export class MaterialRegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const formValue = this.registerForm.value;
+      const formValue = {
+        nombre: this.registerForm.get('nombre')?.value,
+        estado: this.registerForm.get('estado')?.value,
+        stock: this.registerForm.get('stock')?.value,
+        esCompleto: this.registerForm.get('esCompleto')?.value,
+        esSoporte: this.registerForm.get('esSoporte')?.value,
+        descripcion: this.registerForm.get('descripcion')?.value
+      };
+
+      // Enviar solo los datos que el backend espera, sin el idMaterial
       this.storageService.registerMaterial(formValue).subscribe(
         (response) => {
           alert('Material registrado exitosamente');
@@ -54,7 +63,9 @@ export class MaterialRegisterComponent {
   }
 
   onCancel(): void {
-    const confirmCancel = confirm('¿Estás seguro de que deseas cancelar el registro?');
+    const confirmCancel = confirm(
+      '¿Estás seguro de que deseas cancelar el registro?'
+    );
     if (confirmCancel) {
       this.registerForm.reset();
       this.router.navigate(['/storage']);
