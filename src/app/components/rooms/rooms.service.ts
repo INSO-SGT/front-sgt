@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Room } from './room';
 import { environment } from '../../enviroment';
@@ -27,5 +27,10 @@ export class RoomsService {
     return this.http.get<Room[]>(
       `${this.apiUrl}/therapeutic?isTherapeutic=${isTherapeutic}`
     );
+  }
+
+  // Método para obtener un ambiente específico por ID
+  getRoomById(roomId: string): Observable<Room> {
+    return this.http.get<Room>(`${this.apiUrl}/${roomId}`);
   }
 }

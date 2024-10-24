@@ -12,20 +12,32 @@ export class StorageService {
 
   constructor(private http: HttpClient) {}
 
-  registerMaterial(material: Omit<Material, 'idMaterial'>): Observable<Material> {
-    return this.http.post<Material>(`${this.apiUrl}/register`, material);
-  }
-
-
+  // Obtener todos los materiales
   getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);
   }
 
-  getMaterialById(id: string): Observable<Material> {
-    return this.http.get<Material>(`${this.apiUrl}/select/${id}`);
+  // Obtener materiales asignados a una sala específica
+  getMaterialsByRoom(roomId: string): Observable<Material[]> {
+    return this.http.get<Material[]>(`${this.apiUrl}/room/${roomId}`);
   }
 
+  // Desasignar material de una sala
+  unassignMaterialFromRoom(materialId: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/unassign/${materialId}`, {});
+  }
+
+  // Registrar nuevo material
+  registerMaterial(material: Omit<Material, 'idMaterial'>): Observable<Material> {
+    return this.http.post<Material>(`${this.apiUrl}/register`, material);
+  }
+
+  // Editar material
   updateMaterial(id: string, material: Material): Observable<Material> {
     return this.http.put<Material>(`${this.apiUrl}/update/${id}`, material);
+  }
+
+  getMaterialById(id: string): Observable<Material> {
+    return this.http.get<Material>(`${this.apiUrl}/select/${id}`);
   }
 }

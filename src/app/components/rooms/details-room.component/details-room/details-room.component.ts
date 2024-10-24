@@ -1,0 +1,73 @@
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RoomsService } from "../../rooms.service";
+import { Room } from "../../room";
+import { Material } from "../../../storage/material";
+import { StorageService } from "../../../storage/storage.service";
+
+@Component({
+  selector: 'app-details-room',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './details-room.component.html',
+  styleUrls: ['./details-room.component.css'],
+})
+export class DetailsRoomComponent implements OnInit {
+  room: Room | null = null;
+  assignedMaterials: Material[] = [];
+
+  constructor(
+    private route: ActivatedRoute,
+    private roomsService: RoomsService,
+    private storageService: StorageService
+  ) {}
+
+  ngOnInit(): void {
+    const roomId = this.route.snapshot.paramMap.get('idRoom');
+    if (roomId) {
+      this.loadRoomDetails(roomId);
+      this.loadAssignedMaterials(roomId);
+    }
+  }
+
+  // Método para cargar los detalles de la sala
+  loadRoomDetails(roomId: string): void {
+    this.roomsService.getRoomById(roomId).subscribe(
+      (data) => {
+        this.room = data;
+      },
+      (error) => {
+        console.error('Error al cargar los detalles del ambiente', error);
+      }
+    );
+  }
+
+  // Método para cargar los materiales asignados a la sala
+  loadAssignedMaterials(roomId: string): void {
+    this.storageService.getMaterialsByRoom(roomId).subscribe(
+      (data) => {
+        this.assignedMaterials = data;
+      },
+      (error) => {
+        console.error('Error al cargar los materiales asignados', error);
+      }
+    );
+  }
+
+  // Método para desasignar un material
+  unassignMaterial(materialId: string): void {
+    this.storageService.unassignMaterialFromRoom(materialId).subscribe(
+      () => {
+        // Después de desasignar, recargar los materiales asignados
+        const roomId = this.route.snapshot.paramMap.get('idRoom');
+        if (roomId) {
+          this.loadAssignedMaterials(roomId);
+        }
+      },
+      (error) => {
+        console.error('Error al desasignar material', error);
+      }
+    );
+  }
+}

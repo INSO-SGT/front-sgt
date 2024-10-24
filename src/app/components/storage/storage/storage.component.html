@@ -62,13 +62,13 @@
       &lt;
     </button>
     <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
-    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)" [disabled]="
-        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)"
+            [disabled]="currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
       &gt;
     </button>
     <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
-            (click)="goToPage(Math.ceil(filteredMaterials.length / itemsPerPage))" [disabled]="
-        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
+            (click)="goToPage(Math.ceil(filteredMaterials.length / itemsPerPage))"
+            [disabled]="currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
       &gt;&gt;
     </button>
   </div>
