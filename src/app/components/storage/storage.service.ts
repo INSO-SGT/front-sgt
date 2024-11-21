@@ -12,19 +12,45 @@ export class StorageService {
 
   constructor(private http: HttpClient) {}
 
-  registerMaterial(material: Material): Observable<Material> {
-    return this.http.post<Material>(`${this.apiUrl}/register`, material);
-  }
-
+  // Obtener todos los materiales
   getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);
   }
-  getMaterialById(id: string) {
-    return this.http.get<Material>(
-      `${this.apiUrl}/select/${id}`
-    );
+
+  // Obtener materiales asignados a una sala específica
+  getMaterialsByRoom(roomId: string): Observable<Material[]> {
+    return this.http.get<Material[]>(`http://localhost:8080/api/v1/rooms/${roomId}/materials`);
   }
-  updateMaterial(id: string, material: Material): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/update/${id}`, material);
+
+  // Desasignar material de una sala
+  unassignMaterialFromRoom(materialId: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {});
+  }
+
+  // Asignar material a una sala
+  assignMaterialToRoom(materialId: string, roomId: number): Observable<void>{
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/assign/${roomId}`, {});
+  }
+
+  // Registrar nuevo material
+  registerMaterial(material: Omit<Material, 'idMaterial'>): Observable<Material> {
+    return this.http.post<Material>(`${this.apiUrl}/register`, material);
+  }
+
+  // Editar material
+  updateMaterial(id: string, material: Material): Observable<Material> {
+    return this.http.put<Material>(`${this.apiUrl}/update/${id}`, material);
+  }
+  // Obtener un material por su id
+  getMaterialById(id: string): Observable<Material> {
+    return this.http.get<Material>(`${this.apiUrl}/select/${id}`);
+  }
+  // Obtener los materiales que no han sido asignados
+  getUnassignedMaterials(): Observable<Material[]>{
+    return this.http.get<Material[]>(`${this.apiUrl}/unassigned`);
+  }
+  // Eliminar material
+  deleteMaterial(materialId: string): Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/${materialId}`);
   }
 }

@@ -25,7 +25,6 @@ export class RoomsComponent implements OnInit {
     this.loadRooms();
   }
 
-  // Método para cargar todas las salas
   loadRooms(): void {
     this.roomsService.getRooms().subscribe((data) => {
       this.rooms = data;
@@ -34,7 +33,6 @@ export class RoomsComponent implements OnInit {
     });
   }
 
-  // Método para filtrar si las salas son terapéuticas o no
   onFilter(): void {
     const isTherapeutic = this.therapeuticFilter === 'yes';
     this.roomsService.getRoomsByTherapeutic(isTherapeutic).subscribe((data) => {
@@ -43,7 +41,6 @@ export class RoomsComponent implements OnInit {
     });
   }
 
-  // Método para la búsqueda de salas
   onSearch(): void {
     this.filteredRooms = this.rooms.filter((room) =>
       room.name.toLowerCase().includes(this.searchQuery.toLowerCase())

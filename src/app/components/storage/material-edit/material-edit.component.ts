@@ -8,23 +8,22 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // Si es necesario
-import { RouterModule } from '@angular/router'; // Si es necesario
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-material-edit',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule, // Si es necesario
-    RouterModule, // Si es necesario
+    CommonModule,
   ],
   templateUrl: './material-edit.component.html',
-  styleUrl: './material-edit.component.css',
+  styleUrls: ['./material-edit.component.css'],
 })
 export class MaterialEditComponent implements OnInit {
   material: Material | undefined;
   editForm: FormGroup;
+  estados: string[] = ['NUEVO', 'BUENO', 'REGULAR', 'DESGASTADO', 'ROTO'];  // Aquí defines la propiedad 'estados'
 
   constructor(
     private route: ActivatedRoute,
@@ -35,37 +34,36 @@ export class MaterialEditComponent implements OnInit {
     this.editForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: [''],
-      estado: [''],
+      estado: ['', Validators.required],  // Estado es requerido
       stock: [0, [Validators.required, Validators.min(0)]],
       esCompleto: [false],
       esSoporte: [false],
-      areaIntervencion: [''],
-      ambiente: [''],
     });
   }
 
   ngOnInit(): void {
-    const idMaterial = this.route.snapshot.paramMap.get('idMaterial'); // Captura el idMaterial correctamente
-    console.log('ID Material:', idMaterial);  // Asegúrate de que se muestra correctamente
-    
+    const idMaterial = this.route.snapshot.paramMap.get('idMaterial');
     if (idMaterial) {
-      this.storageService.getMaterialById(idMaterial).subscribe((material) => {
-        this.material = material;
-        this.editForm.patchValue(material);  // Rellena el formulario con los datos obtenidos
-      },
-      (error) => {
-        console.error(`Material no encontrado con id: ${idMaterial}`);
-      });
+      this.storageService.getMaterialById(idMaterial).subscribe(
+        (material) => {
+          this.material = material;
+          this.editForm.patchValue(material);
+        },
+        (error) => {
+          console.error('Error al obtener el material:', error);
+        }
+      );
     }
   }
-  
+
   onSubmit(): void {
     if (this.editForm.valid) {
       const updatedMaterial = { ...this.material, ...this.editForm.value };
-      const idMaterial = this.material?.idMaterial; // Asegúrate de que tienes el idMaterial
+      const idMaterial = this.material?.idMaterial;
       if (idMaterial) {
         this.storageService.updateMaterial(idMaterial, updatedMaterial).subscribe(
           () => {
+            alert('Material actualizado correctamente');
             this.router.navigate(['/storage']);
           },
           (error) => {

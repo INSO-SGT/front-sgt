@@ -4,23 +4,25 @@ import { Material } from '../material';
 import { StorageService } from '../storage.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { error } from 'console';
 
 @Component({
   selector: 'app-storage',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './storage.component.html',
-  styleUrl: './storage.component.css',
+  styleUrls: ['./storage.component.css'],
 })
 export class StorageComponent implements OnInit {
   materials: Material[] = [];
   filteredMaterials: Material[] = [];
   searchTerm: string = '';
-  itemsPerPage: number = 10; // Elementos por página
-  currentPage: number = 1; // Página actual
+  itemsPerPage: number = 10;
+  currentPage: number = 1;
   paginatedMaterials: Material[] = [];
+  materialFilter: string ='';
 
-  constructor(private storageService: StorageService, private router: Router) {}
+  constructor(private storageService: StorageService, private router: Router) { }
 
   ngOnInit() {
     this.loadMaterials();
@@ -40,13 +42,8 @@ export class StorageComponent implements OnInit {
     } else {
       this.filteredMaterials = this.materials.filter(
         (material) =>
-          material.nombre
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          material.idMaterial
-            .toLowerCase()
-            .includes(this.searchTerm.toLowerCase()) ||
-          material.estado?.toLowerCase().includes(this.searchTerm.toLowerCase())
+          material.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          material.estado.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
     this.paginate();
@@ -65,8 +62,34 @@ export class StorageComponent implements OnInit {
     this.paginate();
   }
 
-  navigateToEdit(id: string): void {
+  onFilter(): void{
+    if (this.materialFilter === '') {
+      this.filteredMaterials = this.materials;
+      this.paginate();
+    } else {
+      this.filteredMaterials = this.materials.filter((material) =>
+        material.estado === this.materialFilter
+      );
+      this.paginate();
+    }
+  }
+
+  navigateToEdit(id: string | undefined): void {
     this.router.navigate([`/storage/material-edit`, id]);
+  }
+
+  delete(materialId: string | undefined): void {
+    if (materialId === undefined) {
+      return;
+    }
+    this.storageService.deleteMaterial(materialId).subscribe(
+      () =>{
+        this.loadMaterials();
+      },
+      (error)=>{
+        console.error('Error al eliminar un material', error);
+      }
+    )
   }
 
   protected readonly Math = Math;

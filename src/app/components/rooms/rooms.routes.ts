@@ -18,4 +18,11 @@ export default [
         (m) => m.EditRoomComponent
       ),
   },
+  {
+    path: 'details/:idRoom',
+    loadComponent: () =>
+      import('./details-room.component/details-room/details-room.component').then(
+        (m) => m.DetailsRoomComponent
+      ),
+  },
 ] as Routes;
