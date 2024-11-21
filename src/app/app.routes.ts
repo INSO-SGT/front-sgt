@@ -46,4 +46,10 @@ export const routes: Routes = [
       import('./components/storage/storage.routes').then((m) => m.default),
     data: { breadcrumb: 'Inventario' },
   },
+  {
+    path: 'patients',
+    loadChildren: () =>
+      import('./components/patients/patients.rutes').then((m) => m.default),
+    data: { breadcrumb: 'Inventario' },
+  },
 ];

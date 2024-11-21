@@ -1,1 +1,67 @@
-<p>patients works!</p>
+<div class="patient-list-container">
+  <button
+    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+    routerLink="./register"
+  >
+    Crear Paciente
+  </button>
+
+  <!-- Tabla para listar pacientes -->
+  <table class="table-auto border-collapse border border-gray-300 w-full text-left">
+    <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2">ID</th>
+      <th class="border border-gray-300 px-4 py-2">Nombre</th>
+      <th class="border border-gray-300 px-4 py-2">Apellido Paterno</th>
+      <th class="border border-gray-300 px-4 py-2">Apellido Materno</th>
+      <th class="border border-gray-300 px-4 py-2">Edad</th>
+      <th class="border border-gray-300 px-4 py-2">Plan</th>
+      <th class="border border-gray-300 px-4 py-2">Tutores</th>
+      <th class="border border-gray-300 px-4 py-2">Estado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Aquí se iteran los pacientes -->
+    <tr *ngFor="let patient of patients">
+      <td class="border border-gray-300 px-4 py-2">{{ patient.idPatient }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ patient.name }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ patient.paternalSurname }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ patient.maternalSurname }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ patient.age }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ patient.planId }}</td>
+      <td class="border border-gray-300 px-4 py-2">
+        <!-- Itera la lista de tutores -->
+        <span *ngFor="let tutor of patient.tutorNames; let last = last">
+            {{ tutor }}<span *ngIf="!last">, </span>
+          </span>
+      </td>
+      <td class="border border-gray-300 px-4 py-2">
+          <span [ngClass]="{ 'text-green-600': patient.status, 'text-red-600': !patient.status }">
+            {{ patient.status ? 'Activo' : 'Inactivo' }}
+          </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+<!--  <div class="pagination flex justify-between items-center mt-4">-->
+<!--    <button-->
+<!--      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"-->
+<!--      (click)="previousPage()"-->
+<!--      [disabled]="pagination.page === 1"-->
+<!--    >-->
+<!--      Anterior-->
+<!--    </button>-->
+<!--    <span class="text-gray-700">-->
+<!--      Página {{ pagination.page }} de {{ pagination.totalPages }}-->
+<!--    </span>-->
+<!--    <button-->
+<!--      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"-->
+<!--      (click)="nextPage()"-->
+<!--      [disabled]="pagination.page === pagination.totalPages"-->
+<!--    >-->
+<!--      Siguiente-->
+<!--    </button>-->
+<!--  </div>-->
+</div>
