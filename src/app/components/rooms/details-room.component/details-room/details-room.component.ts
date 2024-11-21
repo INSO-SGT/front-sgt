@@ -3,19 +3,26 @@ import {ActivatedRoute, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RoomsService } from "../../rooms.service";
 import { Room } from "../../room";
-import { Material } from "../../../storage/material";
 import { StorageService } from "../../../storage/storage.service";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-details-room',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './details-room.component.html',
   styleUrls: ['./details-room.component.css'],
 })
 export class DetailsRoomComponent implements OnInit {
   room: Room | null = null;
-  assignedMaterials: Material[] = [];
+  assignedMaterials: any[] = [];
+  isAssignModalOpen = false;
+
+
+  unassignedMaterials: any[] = [];
+  filteredMaterials: any[] = [];
+  searchQuery: string = '';
+  materialFilter: string ='';
 
   constructor(
     private route: ActivatedRoute,
@@ -48,9 +55,23 @@ export class DetailsRoomComponent implements OnInit {
     this.storageService.getMaterialsByRoom(roomId).subscribe(
       (data) => {
         this.assignedMaterials = data;
+        this.filteredMaterials = [...this.assignedMaterials];
       },
       (error) => {
         console.error('Error al cargar los materiales asignados', error);
+      }
+    );
+    this.loadUnassignedMaterials();
+  }
+
+  //Metodo para cargar los materiales que no estan asignados a ninguna sala
+  loadUnassignedMaterials(): void{
+    this.storageService.getUnassignedMaterials().subscribe(
+      (data) =>{
+        this.unassignedMaterials = data;
+      },
+      (error)=>{
+        console.error('Error al cargar los materiales que no estan asignados', error);
       }
     );
   }
@@ -70,4 +91,45 @@ export class DetailsRoomComponent implements OnInit {
       }
     );
   }
+  // Metodo para asignar un material
+  assignMaterial(materialId: string, roomId: number): void{
+    this.storageService.assignMaterialToRoom(materialId, roomId).subscribe(
+      () => {
+        const roomIdFromRoute = this.route.snapshot.paramMap.get('idRoom');
+        if (roomIdFromRoute) {
+          this.loadAssignedMaterials(roomIdFromRoute);
+        }
+        this.isAssignModalOpen = false;
+      },
+      (error) => {
+        console.error('Error al desasignar material', error);
+      }
+    );
+  }
+
+  // COMPORTAMIENTOS DEL MODAL (CERRAR Y ABRIR MODAL)
+  openAssignModal() {
+    this.isAssignModalOpen = true;
+  }
+  closeAssignModal() {
+    this.isAssignModalOpen = false;
+  }
+
+  // FILTROS
+  onSearch(): void {
+    this.filteredMaterials = this.assignedMaterials.filter((material) =>
+      material.nombre.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+  }
+
+  onFilter(): void{
+    if (this.materialFilter === '') {
+      this.filteredMaterials = this.assignedMaterials;
+    } else {
+      this.filteredMaterials = this.assignedMaterials.filter((material) =>
+        material.estado === this.materialFilter
+      );
+    }
+  }
+
 }

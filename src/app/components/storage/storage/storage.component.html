@@ -13,6 +13,19 @@
         <input type="text" class="border border-gray-300 rounded-lg w-full px-3 py-2" placeholder="Buscar material"
                [(ngModel)]="searchTerm" (input)="onSearch()" />
       </div>
+      
+      <div>
+        <label class="block text-lg font-medium mb-1">Filtrar</label>
+        <select class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="materialFilter"
+          (change)="onFilter()">
+          <option value="">Todos</option>
+          <option value="NUEVO">Nuevo</option>
+          <option value="BUENO">Bueno</option>
+          <option value="REGULAR">REGULAR</option>
+          <option value="DESGASTADO">DESGASTADO</option>
+          <option value="ROTO">ROTO</option>
+        </select>
+      </div>
 
       <!-- Paginación: cantidad de elementos por página -->
       <div>
@@ -40,8 +53,11 @@
     <tbody>
     <tr *ngFor="let material of paginatedMaterials">
       <td>
-        <button (click)="navigateToEdit(material.idMaterial)">
+        <button (click)="navigateToEdit(material.idMaterial)"  class="mr-10">
           <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button (click)="delete(material.idMaterial)">
+          <i class="fa fa-trash " aria-hidden="true"></i>
         </button>
       </td>
       <td class="border px-4 py-2">{{ material.idMaterial }}</td>
