@@ -13,10 +13,7 @@ export class RegisterService {
   constructor(private http: HttpClient) {}
 
   registerUser(data: RegisterUser): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `${token}`);
-
-    return this.http.post<any>(this.apiUrl, data, { headers }).pipe(
+    return this.http.post<any>(this.apiUrl, data).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.error instanceof ProgressEvent) {
           // Error del servidor no es un JSON válido

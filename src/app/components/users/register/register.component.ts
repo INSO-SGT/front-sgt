@@ -43,7 +43,7 @@ export class RegisterComponent {
         email: [
           '',
           [
-            Validators.required,
+            Validators.required, Validators.email,
             Validators.pattern(
               /^[a-zA-ZñÑ0-9._%+-]+@[a-zA-ZñÑ0-9.-]+\.[a-zA-Z]{2,4}$/
             ),
@@ -156,6 +156,7 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
+    
     if (this.registerForm.valid) {
       const confirmed = window.confirm(
         '¿Estás seguro de que deseas guardar este registro?'
