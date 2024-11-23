@@ -2,7 +2,7 @@
   <!-- Botón de agregar -->
   <div class="flex justify-between mb-6">
     <button class="bg-blue-800 text-white px-6 py-3 rounded-lg text-lg hover:scale-110 transition duration-150"
-      [routerLink]="'/storage/material-register'">
+            [routerLink]="'/storage/material-register'">
       Agregar Material
     </button>
 
@@ -11,14 +11,27 @@
       <div>
         <label class="block text-lg font-medium mb-1">Buscar</label>
         <input type="text" class="border border-gray-300 rounded-lg w-full px-3 py-2" placeholder="Buscar material"
-          [(ngModel)]="searchTerm" (input)="onSearch()" />
+               [(ngModel)]="searchTerm" (input)="onSearch()" />
+      </div>
+      
+      <div>
+        <label class="block text-lg font-medium mb-1">Filtrar</label>
+        <select class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="materialFilter"
+          (change)="onFilter()">
+          <option value="">Todos</option>
+          <option value="NUEVO">Nuevo</option>
+          <option value="BUENO">Bueno</option>
+          <option value="REGULAR">REGULAR</option>
+          <option value="DESGASTADO">DESGASTADO</option>
+          <option value="ROTO">ROTO</option>
+        </select>
       </div>
 
       <!-- Paginación: cantidad de elementos por página -->
       <div>
         <label class="block text-lg font-medium mb-1">Mostrar</label>
         <select class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="itemsPerPage"
-          (change)="paginate()">
+                (change)="paginate()">
           <option value="10">10</option>
           <option value="20">20</option>
         </select>
@@ -29,26 +42,29 @@
   <!-- Tabla de materiales -->
   <table class="min-w-full table-auto">
     <thead>
-      <tr>
-        <th class="px-4 py-2">Acciones</th>
-        <th class="px-4 py-2">ID MATERIAL</th>
-        <th class="px-4 py-2">NOMBRE</th>
-        <th class="px-4 py-2">STOCK</th>
-        <th class="px-4 py-2">ESTADO</th>
-      </tr>
+    <tr>
+      <th class="px-4 py-2">Acciones</th>
+      <th class="px-4 py-2">ID MATERIAL</th>
+      <th class="px-4 py-2">NOMBRE</th>
+      <th class="px-4 py-2">STOCK</th>
+      <th class="px-4 py-2">ESTADO</th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let material of paginatedMaterials">
-        <td>
-          <button (click)="navigateToEdit(material.idMaterial)">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </button>
-        </td>
-        <td class="border px-4 py-2">{{ material.idMaterial }}</td>
-        <td class="border px-4 py-2">{{ material.nombre }}</td>
-        <td class="border px-4 py-2">{{ material.stock }}</td>
-        <td class="border px-4 py-2">{{ material.estado }}</td>
-      </tr>
+    <tr *ngFor="let material of paginatedMaterials">
+      <td>
+        <button (click)="navigateToEdit(material.idMaterial)"  class="mr-10">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button (click)="delete(material.idMaterial)">
+          <i class="fa fa-trash " aria-hidden="true"></i>
+        </button>
+      </td>
+      <td class="border px-4 py-2">{{ material.idMaterial }}</td>
+      <td class="border px-4 py-2">{{ material.nombre }}</td>
+      <td class="border px-4 py-2">{{ material.stock }}</td>
+      <td class="border px-4 py-2">{{ material.estado }}</td>
+    </tr>
     </tbody>
   </table>
 
@@ -58,19 +74,17 @@
       &lt;&lt;
     </button>
     <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage - 1)"
-      [disabled]="currentPage === 1">
+            [disabled]="currentPage === 1">
       &lt;
     </button>
     <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
-    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)" [disabled]="
-        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)
-      ">
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)"
+            [disabled]="currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
       &gt;
     </button>
     <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
-      (click)="goToPage(Math.ceil(filteredMaterials.length / itemsPerPage))" [disabled]="
-        currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)
-      ">
+            (click)="goToPage(Math.ceil(filteredMaterials.length / itemsPerPage))"
+            [disabled]="currentPage >= Math.ceil(filteredMaterials.length / itemsPerPage)">
       &gt;&gt;
     </button>
   </div>

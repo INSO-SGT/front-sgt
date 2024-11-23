@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './components/auth/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'users',
     loadChildren: () =>
       import('./components/users/users.routes').then((m) => m.default),
+    canActivate: [authGuard],
     data: { breadcrumb: 'Usuarios' },
   },
   {

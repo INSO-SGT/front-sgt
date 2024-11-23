@@ -4,21 +4,44 @@
     <h1 class="text-3xl font-thin text-white">PLENA-Mente</h1>
   </div>
   <nav class="absolute left-1/2 transform -translate-x-1/2">
-    <ul class="text-white flex text-4xl">
-      <i class="ti ti-calendar mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
-      <i class="ti ti-clipboard-smile mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer" routerLink="/patients"></i>
-      <i class="ti ti-door mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer "
-        [routerLink]="'/rooms'"></i>
-      <i class="ti ti-packages mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
-        [routerLink]="'/storage'"></i>
-      <i class="ti ti-cash mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
-      <i class="ti ti-users mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
-        [routerLink]="'/users'"></i>
-      <i class="ti ti-cash-register mx-5 hover:scale-125 duration-150 transition-transform"></i>
-      <i class="ti ti-bulb mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
-        [routerLink]="'/areas'"></i>
+    <ul class="text-white flex text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl space-x-6">
+      <li class="flex items-center justify-center">
+        <i class="ti ti-calendar hover:scale-125 duration-150 transition-transform cursor-pointer" title="Calendario">
+          <span class="ml-2">Calendario</span>
+        </i>|
+      </li>
+      <li class="flex items-center justify-center">
+        <i class="ti ti-clipboard-smile hover:scale-125 duration-150 transition-transform cursor-pointer" title="Tareas">
+          <span class="ml-2">Pacientes</span>
+        </i>
+      </li>
+      <li class="flex items-center justify-center">
+        <i class="ti ti-door hover:scale-125 duration-150 transition-transform cursor-pointer" title="Ambientes"
+           [routerLink]="'/rooms'">
+          <span class="ml-2">Ambientes</span>
+        </i>
+      </li>
+      <li class="flex items-center justify-center">
+        <i class="ti ti-packages hover:scale-125 duration-150 transition-transform cursor-pointer" title="Inventario"
+           [routerLink]="'/storage'">
+          <span class="ml-2">Inventario</span>
+        </i>
+      </li>
+      <li class="flex items-center justify-center">
+        <i class="ti ti-users hover:scale-125 duration-150 transition-transform cursor-pointer" title="Usuarios"
+           [routerLink]="'/users'">
+          <span class="ml-2">Usuarios</span>
+        </i>
+      </li>
+
+      <li class="flex items-center justify-center">
+        <i class="ti ti-bulb hover:scale-125 duration-150 transition-transform cursor-pointer" title="Áreas"
+           [routerLink]="'/areas'">
+          <span class="ml-2">Áreas</span>
+        </i>
+      </li>
     </ul>
   </nav>
-  <i class="ti ti-logout text-white text-4xl mr-10 hover:scale-125 duration-150 transition-transform cursor-pointer"
-    (click)="logout()"></i>
+  <i class="ti ti-logout text-white text-3xl md:text-4xl lg:text-4xl mr-4 md:mr-10 hover:scale-125 duration-150 transition-transform cursor-pointer"
+     (click)="logout()" title="Cerrar sesión"></i>
 </header>
