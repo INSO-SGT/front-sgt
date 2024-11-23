@@ -1,0 +1,66 @@
+<div class="container">
+  <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+    <!-- Datos del paciente -->
+    <div class="form-group">
+      <label for="name">Nombres</label>
+      <input id="name" formControlName="name" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="paternalSurname">Apellido Paterno</label>
+      <input id="paternalSurname" formControlName="paternalSurname" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="maternalSurname">Apellido Materno</label>
+      <input id="maternalSurname" formControlName="maternalSurname" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="birthdate">Fecha de Nacimiento</label>
+      <input id="birthdate" formControlName="birthdate" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="age">Edad</label>
+      <input id="age" formControlName="age" type="number" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="allergies">Alergias</label>
+      <textarea id="allergies" formControlName="allergies" class="form-control"></textarea>
+    </div>
+
+    <!-- Plan -->
+    <div class="form-group">
+      <label for="idPlan">Plan</label>
+      <select id="idPlan" formControlName="idPlan" class="form-control">
+        <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
+      </select>
+    </div>
+
+    <!-- Tutores -->
+    <div formArrayName="tutors">
+      <div *ngFor="let tutor of tutors.controls; let i = index" [formGroupName]="i" class="tutor-group">
+        <h4>Tutor {{ i + 1 }}</h4>
+        <div class="form-group">
+          <label for="fullName">Nombre del Tutor</label>
+          <input id="fullName" formControlName="fullName" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="dni">DNI</label>
+          <input id="dni" formControlName="dni" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="phone">Teléfono</label>
+          <input id="phone" formControlName="phone" class="form-control" />
+        </div>
+        <button type="button" (click)="removeTutor(i)" [disabled]="tutors.length === 1" class="btn btn-danger">Eliminar Tutor</button>
+      </div>
+    </div>
+
+    <!-- Botón para agregar tutores -->
+    <button type="button" (click)="addTutor()" class="btn btn-primary">Añadir Tutor</button>
+
+    <!-- Botón de enviar -->
+    <button type="submit" [disabled]="patientForm.invalid" class="btn btn-success">Registrar Paciente</button>
+
+    <!-- Botón de cancelar -->
+    <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancelar</button>
+  </form>
+</div>
