@@ -44,13 +44,13 @@
         <label class="block text-lg font-medium text-gray-700">Apellido Paterno</label>
         <input type="text"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          formControlName="lastNamePaterno" placeholder="Apellido Paterno">
+          formControlName="paternalSurname" placeholder="Apellido Paterno">
       </div>
       <div class="w-1/2">
         <label class="block text-lg font-medium text-gray-700">Apellido Materno</label>
         <input type="text"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          formControlName="lastNameMaterno" placeholder="Apellido Materno">
+          formControlName="maternalSurname" placeholder="Apellido Materno">
       </div>
     </div>
 
@@ -103,7 +103,7 @@
         <label class="block text-lg font-medium text-gray-700">Teléfono de respaldo</label>
         <input type="tel"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          formControlName="backupPhone" placeholder="Teléfono de respaldo">
+          formControlName="phoneBackup" placeholder="Teléfono de respaldo">
       </div>
     </div>
 
@@ -127,18 +127,6 @@
       <h2 class="block text-lg font-medium text-gray-700">Admin</h2>
       <input type="checkbox" class="w-6 h-6 border-2 border-black" [checked]="isAdminSelected"
         (click)="toggleAdminSelection($event)" />
-    </div>
-
-    <div *ngIf="selectedRole === 'Terapeuta'" class="mb-5">
-      <h1 class="block text-lg font-medium text-gray-700">Pago por sesión</h1>
-      <input type="number" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" formControlName="paymentPerSession"
-        placeholder="Pago por sesión" step="0.01">
-    </div>
-
-    <div *ngIf="selectedRole === 'Secretario/a'" class="mb-5">
-      <h1 class="block text-lg font-medium text-gray-700">Pago por mes</h1>
-      <input type="number" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" formControlName="paymentPerMonth" placeholder="Pago por mes"
-        step="0.01">
     </div>
 
     <!-- Botones -->
