@@ -1,66 +1,152 @@
-<div class="container">
+<section class="flex flex-col items-center mt-12 w-full max-w-xl mx-auto">
   <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
-    <!-- Datos del paciente -->
-    <div class="form-group">
-      <label for="name">Nombres</label>
-      <input id="name" formControlName="name" class="form-control" />
+    <h1 class="text-3xl font-bold mb-10 text-center text-blue-800">Registrar Paciente</h1>
+
+    <!-- Nombres -->
+    <div class="mb-5 relative">
+      <label class="block text-lg font-medium text-gray-700">Nombres</label>
+      <input
+        type="text"
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+        formControlName="name"
+        placeholder="Nombres"
+      />
     </div>
-    <div class="form-group">
-      <label for="paternalSurname">Apellido Paterno</label>
-      <input id="paternalSurname" formControlName="paternalSurname" class="form-control" />
+
+    <!-- Apellido Paterno y Materno -->
+    <div class="flex gap-5 mb-5">
+      <div class="w-1/2">
+        <label class="block text-lg font-medium text-gray-700">Apellido Paterno</label>
+        <input
+          type="text"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          formControlName="paternalSurname"
+          placeholder="Apellido Paterno"
+        />
+      </div>
+      <div class="w-1/2">
+        <label class="block text-lg font-medium text-gray-700">Apellido Materno</label>
+        <input
+          type="text"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          formControlName="maternalSurname"
+          placeholder="Apellido Materno"
+        />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="maternalSurname">Apellido Materno</label>
-      <input id="maternalSurname" formControlName="maternalSurname" class="form-control" />
+
+    <!-- Fecha de Nacimiento y Edad -->
+    <div class="flex gap-5 mb-5">
+      <div class="w-1/2">
+        <label class="block text-lg font-medium text-gray-700">Fecha de Nacimiento</label>
+        <input
+          type="date"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          formControlName="birthdate"
+        />
+      </div>
+      <div class="w-1/2">
+        <label class="block text-lg font-medium text-gray-700">Edad</label>
+        <input
+          type="number"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          formControlName="age"
+          placeholder="Edad"
+        />
+      </div>
     </div>
-    <div class="form-group">
-      <label for="birthdate">Fecha de Nacimiento</label>
-      <input id="birthdate" formControlName="birthdate" type="date" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="age">Edad</label>
-      <input id="age" formControlName="age" type="number" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="allergies">Alergias</label>
-      <textarea id="allergies" formControlName="allergies" class="form-control"></textarea>
+
+    <!-- Alergias -->
+    <div class="mb-5 relative">
+      <label class="block text-lg font-medium text-gray-700">Alergias</label>
+      <textarea
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+        formControlName="allergies"
+        placeholder="Alergias"
+        rows="3"
+      ></textarea>
     </div>
 
     <!-- Plan -->
-    <div class="form-group">
-      <label for="idPlan">Plan</label>
-      <select id="idPlan" formControlName="idPlan" class="form-control">
+    <div class="mb-5 relative">
+      <label class="block text-lg font-medium text-gray-700">Plan</label>
+      <select
+        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+        formControlName="idPlan"
+      >
         <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
       </select>
     </div>
 
     <!-- Tutores -->
-    <div formArrayName="tutors">
-      <div *ngFor="let tutor of tutors.controls; let i = index" [formGroupName]="i" class="tutor-group">
-        <h4>Tutor {{ i + 1 }}</h4>
-        <div class="form-group">
-          <label for="fullName">Nombre del Tutor</label>
-          <input id="fullName" formControlName="fullName" class="form-control" />
+    <div formArrayName="tutors" class="mb-5">
+      <h2 class="text-lg font-medium text-gray-700 mb-3">Tutores</h2>
+      <div
+        *ngFor="let tutor of tutors.controls; let i = index"
+        [formGroupName]="i"
+        class="border p-4 mb-4 rounded-lg bg-gray-50 shadow-sm"
+      >
+        <h3 class="font-medium mb-3">Tutor {{ i + 1 }}</h3>
+        <div class="mb-3">
+          <label class="block text-sm font-medium text-gray-700">Nombre del Tutor</label>
+          <input
+            type="text"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+            formControlName="fullName"
+            placeholder="Nombre del Tutor"
+          />
         </div>
-        <div class="form-group">
-          <label for="dni">DNI</label>
-          <input id="dni" formControlName="dni" class="form-control" />
+        <div class="mb-3">
+          <label class="block text-sm font-medium text-gray-700">DNI</label>
+          <input
+            type="text"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+            formControlName="dni"
+            placeholder="DNI"
+          />
         </div>
-        <div class="form-group">
-          <label for="phone">Teléfono</label>
-          <input id="phone" formControlName="phone" class="form-control" />
+        <div class="mb-3">
+          <label class="block text-sm font-medium text-gray-700">Teléfono</label>
+          <input
+            type="tel"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+            formControlName="phone"
+            placeholder="Teléfono"
+          />
         </div>
-        <button type="button" (click)="removeTutor(i)" [disabled]="tutors.length === 1" class="btn btn-danger">Eliminar Tutor</button>
+        <button
+          type="button"
+          (click)="removeTutor(i)"
+          [disabled]="tutors.length === 1"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-500 transition"
+        >
+          Eliminar Tutor
+        </button>
       </div>
+      <button
+        type="button"
+        (click)="addTutor()"
+        class="bg-blue-800 text-white px-5 py-2 rounded-lg text-sm hover:bg-blue-700 transition"
+      >
+        Añadir Tutor
+      </button>
     </div>
 
-    <!-- Botón para agregar tutores -->
-    <button type="button" (click)="addTutor()" class="btn btn-primary">Añadir Tutor</button>
-
-    <!-- Botón de enviar -->
-    <button type="submit" [disabled]="patientForm.invalid" class="btn btn-success">Registrar Paciente</button>
-
-    <!-- Botón de cancelar -->
-    <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancelar</button>
+    <!-- Botones -->
+    <div class="flex gap-5 justify-center mt-10">
+      <button
+        type="submit"
+        class="bg-blue-800 text-white px-5 py-2 rounded-lg text-xl hover:bg-blue-700"
+      >
+        Guardar
+      </button>
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="bg-gray-500 text-white px-5 py-2 rounded-lg text-xl hover:bg-gray-400"
+      >
+        Cancelar
+      </button>
+    </div>
   </form>
-</div>
+</section>

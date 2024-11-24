@@ -1,39 +1,47 @@
-import { Component } from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {AreasRegisterService} from "./areas-register.service";
-import {FormsModule} from "@angular/forms";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { AreasRegisterService } from "./areas-register.service";
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-areas-register',
   standalone: true,
   imports: [
-    FormsModule, CommonModule
+    CommonModule, ReactiveFormsModule
   ],
   templateUrl: './areas-register.component.html',
-  styleUrl: './areas-register.component.css'
+  styleUrls: ['./areas-register.component.css']
 })
-export class AreasRegisterComponent {
-  name = '';
-  description = '';
-  errorMessage = '';
-  successMessage = '';
+export class AreasRegisterComponent implements OnInit {
+  areaForm!: FormGroup; // Formulario para el registro del área
+  errorMessage = ''; // Mensaje de error
+  successMessage = ''; // Mensaje de éxito
 
   constructor(
+    private formBuilder: FormBuilder,
     private areasRegisterService: AreasRegisterService,
-    private router: Router // Inyectar el Router aquí
+    private router: Router
   ) {}
 
-  onSubmit() {
-    if (this.name && this.description) {
-      this.areasRegisterService.registerArea(this.name, this.description).subscribe(
+  ngOnInit(): void {
+    this.areaForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(5)]],
+    });
+  }
+
+  onSubmit(): void {
+    if (this.areaForm.valid) {
+      const { name, description } = this.areaForm.value;
+      this.areasRegisterService.registerArea(name, description).subscribe(
         (response) => {
+          // Mensaje de éxito
           this.successMessage = 'El área de intervención se ha registrado correctamente.';
           setTimeout(() => {
             this.successMessage = '';
-            // Redirigir a la página anterior (puedes cambiar la ruta si es necesario)
-            this.router.navigate(['/areas']);
-          }, 3000); // Puedes ajustar el tiempo de espera si lo deseas
+            this.router.navigate(['/areas']); // Redirigir al listado de áreas
+          }, 3000); // Mostrar el mensaje durante 3 segundos
         },
         (error) => {
           this.errorMessage = 'Ocurrió un error al registrar el área.';
@@ -44,11 +52,10 @@ export class AreasRegisterComponent {
     }
   }
 
-  onCancel() {
+  onCancel(): void {
     const confirmation = confirm('¿Estás seguro de que deseas cancelar el registro?');
     if (confirmation) {
-      // Redirigir de inmediato a la página anterior al cancelar
-      this.router.navigate(['/areas']);
+      this.router.navigate(['/areas']); // Redirigir al listado de áreas
     }
   }
 }

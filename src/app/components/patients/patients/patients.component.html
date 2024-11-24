@@ -1,67 +1,100 @@
-<div class="patient-list-container">
-  <button
-    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-    routerLink="./register"
-  >
-    Crear Paciente
-  </button>
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg mt-12">
+  <!-- Botón de agregar -->
+  <div class="flex justify-end mb-8">
+    <button
+      class="bg-blue-800 text-white px-6 py-3 rounded-lg text-lg hover:scale-110 transition duration-150"
+      [routerLink]="'/patients/register'"
+    >
+      Agregar Paciente
+    </button>
+  </div>
 
-  <!-- Tabla para listar pacientes -->
-  <table class="table-auto border-collapse border border-gray-300 w-full text-left">
-    <thead>
-    <tr class="bg-gray-100">
-      <th class="border border-gray-300 px-4 py-2">ID</th>
-      <th class="border border-gray-300 px-4 py-2">Nombre</th>
-      <th class="border border-gray-300 px-4 py-2">Apellido Paterno</th>
-      <th class="border border-gray-300 px-4 py-2">Apellido Materno</th>
-      <th class="border border-gray-300 px-4 py-2">Edad</th>
-      <th class="border border-gray-300 px-4 py-2">Plan</th>
-      <th class="border border-gray-300 px-4 py-2">Tutores</th>
-      <th class="border border-gray-300 px-4 py-2">Estado</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Aquí se iteran los pacientes -->
-    <tr *ngFor="let patient of patients">
-      <td class="border border-gray-300 px-4 py-2">{{ patient.idPatient }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ patient.name }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ patient.paternalSurname }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ patient.maternalSurname }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ patient.age }}</td>
-      <td class="border border-gray-300 px-4 py-2">{{ patient.planId }}</td>
-      <td class="border border-gray-300 px-4 py-2">
-        <!-- Itera la lista de tutores -->
-        <span *ngFor="let tutor of patient.tutorNames; let last = last">
-            {{ tutor }}<span *ngIf="!last">, </span>
-          </span>
-      </td>
-      <td class="border border-gray-300 px-4 py-2">
-          <span [ngClass]="{ 'text-green-600': patient.status, 'text-red-600': !patient.status }">
-            {{ patient.status ? 'Activo' : 'Inactivo' }}
-          </span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <!-- Buscar y mostrar -->
+  <div class="flex justify-between items-center bg-gray-100 p-6 rounded-lg mb-8 space-x-8">
+    <div class="w-1/4">
+      <label for="buscar" class="block text-lg font-medium mb-2">Buscar:</label>
+      <input
+        id="buscar"
+        type="text"
+        class="border border-gray-300 rounded-lg w-full px-3 py-2"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+        placeholder="Buscar por nombre"
+      />
+    </div>
+    <div class="w-1/4">
+      <label for="mostrar" class="block text-lg font-medium mb-2">Mostrar:</label>
+      <select
+        id="mostrar"
+        class="border border-gray-300 rounded-lg w-full px-3 py-2"
+        [(ngModel)]="itemsPerPage"
+        (change)="onItemsPerPageChange()"
+      >
+        <option value="10">10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Grid de Pacientes -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <div
+      *ngFor="let patient of filteredPatients"
+      class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150 relative"
+    >
+      <!-- Indicador decorativo -->
+      <div
+        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 w-4 h-4 rounded-full border-2 border-white"
+        *ngIf="patient.status"
+      ></div>
+      <div
+        class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 w-4 h-4 rounded-full border-2 border-white"
+        *ngIf="!patient.status"
+      ></div>
+
+      <p class="text-lg font-semibold mt-4">Paciente {{ patient.idPatient }}</p>
+      <p class="text-black mt-4">Nombre: {{ patient.name }}</p>
+      <p class="text-black">Apellidos: {{ patient.paternalSurname }} {{ patient.maternalSurname }}</p>
+      <p class="text-black">DNI: {{ patient.dni }}</p>
+      <a
+        [routerLink]="['/patients/details', patient.idPatient]"
+        class="text-blue-600 underline mt-6 block hover:text-blue-900"
+      >
+        Ver Detalles
+      </a>
+    </div>
+  </div>
 
   <!-- Paginación -->
-<!--  <div class="pagination flex justify-between items-center mt-4">-->
-<!--    <button-->
-<!--      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"-->
-<!--      (click)="previousPage()"-->
-<!--      [disabled]="pagination.page === 1"-->
-<!--    >-->
-<!--      Anterior-->
-<!--    </button>-->
-<!--    <span class="text-gray-700">-->
-<!--      Página {{ pagination.page }} de {{ pagination.totalPages }}-->
-<!--    </span>-->
-<!--    <button-->
-<!--      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"-->
-<!--      (click)="nextPage()"-->
-<!--      [disabled]="pagination.page === pagination.totalPages"-->
-<!--    >-->
-<!--      Siguiente-->
-<!--    </button>-->
-<!--  </div>-->
+  <div class="flex justify-center mt-10 space-x-4">
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(1)"
+      [disabled]="currentPage === 1"
+    >
+      &lt;&lt;
+    </button>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      &lt;
+    </button>
+    <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage >= Math.ceil(filteredPatients.length / itemsPerPage)"
+    >
+      &gt;
+    </button>
+    <button
+      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+      (click)="goToPage(Math.ceil(filteredPatients.length / itemsPerPage))"
+      [disabled]="currentPage >= Math.ceil(filteredPatients.length / itemsPerPage)"
+    >
+      &gt;&gt;
+    </button>
+  </div>
 </div>
