@@ -50,6 +50,7 @@
 
       <p class="text-xl font-semibold mt-4">{{ user.username }}</p>
       <p class="text-black-500 mt-4">Teléfono: {{ user.phone }}</p>
+      <p class="text-black-500 mt-4">DNI: {{ user.dni }}</p>
       <a [routerLink]="['/users/details', user.id]" class="text-blue-600 underline mt-6 block hover:text-blue-900">Ver Detalles</a>
     </div>
   </div>

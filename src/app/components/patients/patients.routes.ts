@@ -5,12 +5,12 @@ export default [
     path: '',
     loadComponent: () =>
       import('./patients/patients.component').then((m) => m.PatientsComponent),
-    data: { breadcrumb: 'Patients' },
+    data: { breadcrumb: 'Pacientes' },
   },
   {
     path: 'register',
     loadComponent: () =>
       import('./patient-register/patient-register.component').then((m) => m.PatientRegisterComponent),
-    data: { breadcrumb: 'Patients' },
+    data: { breadcrumb: 'Registrar Paciente' },
   },
 ] as Routes;

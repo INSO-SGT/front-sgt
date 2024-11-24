@@ -51,7 +51,16 @@ export const routes: Routes = [
   {
     path: 'patients',
     loadChildren: () =>
-      import('./components/patients/patients.rutes').then((m) => m.default),
-    data: { breadcrumb: 'Inventario' },
+      import('./components/patients/patients.routes').then((m) => m.default),
+    data: { breadcrumb: 'Pacientes' },
   },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./components/users/user-profile/user-profile.component').then(
+        (m) => m.UserProfileComponent
+      ),
+    data: { breadcrumb: 'Mi Perfil' },
+
+  }
 ];
