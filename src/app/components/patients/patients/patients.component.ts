@@ -14,6 +14,7 @@ import { FormsModule } from "@angular/forms";
 })
 export class PatientsComponent implements OnInit {
   patients: any[] = [];
+  
   filteredPatients: any[] = [];
   searchQuery: string = '';
   itemsPerPage: number = 10;
@@ -28,7 +29,7 @@ export class PatientsComponent implements OnInit {
   loadPatients(): void {
     this.patientService.getPatients().subscribe(
       (data) => {
-        this.patients = data || []; // Asegurar que siempre sea un array
+        this.patients = data || []; 
         this.filteredPatients = [...this.patients];
       },
       (error) => {
