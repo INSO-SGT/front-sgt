@@ -8,7 +8,7 @@ import { environment } from '../../enviroment';
   providedIn: 'root',
 })
 export class CalendarService {
-  private apiUrl = `${environment.apiUrl}/sessions`; // Ajusta la URL base según tu backend
+  private apiUrl = `${environment.apiUrl}/sessions`;
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +26,6 @@ export class CalendarService {
   reprogramSession(sesionId: number, reprogrammingData: any): Observable<any>{
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/update/${sesionId}`, {reprogrammingData}, {headers});
+    return this.http.put<any>(`${this.apiUrl}/update/${sesionId}`, reprogrammingData, {headers});
   }
 }

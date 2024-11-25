@@ -36,12 +36,8 @@ export class AreasRegisterComponent implements OnInit {
       const { name, description } = this.areaForm.value;
       this.areasRegisterService.registerArea(name, description).subscribe(
         (response) => {
-          // Mensaje de éxito
           this.successMessage = 'El área de intervención se ha registrado correctamente.';
-          setTimeout(() => {
-            this.successMessage = '';
-            this.router.navigate(['/areas']); // Redirigir al listado de áreas
-          }, 3000); // Mostrar el mensaje durante 3 segundos
+          this.router.navigate(['/areas']); 
         },
         (error) => {
           this.errorMessage = 'Ocurrió un error al registrar el área.';
