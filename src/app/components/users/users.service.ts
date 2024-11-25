@@ -58,4 +58,16 @@ export class UsersService {
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
+
+  getMyProfile(): Observable<any> {
+    const token = this.getToken(); // Obtiene el token del usuario
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/me`, { headers });
+  }
+
+  updateProfile(profile: any): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/me`, profile, { headers });
+  }
 }

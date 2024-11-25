@@ -69,5 +69,14 @@ export const routes: Routes = [
       canActivate: [authGuard, roleGuard],
     data: { breadcrumb: 'Mi Perfil', roles: ['secretary', 'therapist', 'admin'] },
 
+  },
+  {
+    path: 'update-profile',
+    loadComponent: () =>
+      import('./components/users/update-profile/user-update.component').then(
+        (m) => m.UserUpdateComponent
+      ),
+    data: { breadcrumb: ' Actualizar mi Perfil' },
+
   }
 ];
