@@ -62,5 +62,14 @@ export const routes: Routes = [
       ),
     data: { breadcrumb: 'Mi Perfil' },
 
+  },
+  {
+    path: 'update-profile',
+    loadComponent: () =>
+      import('./components/users/update-profile/user-update.component').then(
+        (m) => m.UserUpdateComponent
+      ),
+    data: { breadcrumb: ' Actualizar mi Perfil' },
+
   }
 ];
