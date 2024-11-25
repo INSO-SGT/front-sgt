@@ -1,0 +1,25 @@
+<form [formGroup]="areaForm" (ngSubmit)="onSubmit()">
+  <!-- Nombre del Área -->
+  <div class="mb-4">
+    <label for="name" class="block text-gray-700 font-bold">Nombre del Área</label>
+    <input id="name" type="text" class="w-full p-2 border rounded" formControlName="name" />
+  </div>
+
+  <!-- Descripción -->
+  <div class="mb-4">
+    <label for="description" class="block text-gray-700 font-bold">Descripción</label>
+    <textarea id="description" class="w-full p-2 border rounded" formControlName="description"></textarea>
+  </div>
+
+  <!-- Botones -->
+  <div class="mt-8 flex space-x-4">
+    <button type="submit"
+      class="bg-blue-800 text-white px-6 py-3 rounded-lg text-lg hover:scale-110 transition duration-150">
+      Guardar Cambios
+    </button>
+    <button type="button" class="bg-gray-300 text-gray-800 px-6 py-3 rounded-lg text-lg hover:scale-105 transition"
+      [routerLink]="['/areas']">
+      Cancelar
+    </button>
+  </div>
+</form>

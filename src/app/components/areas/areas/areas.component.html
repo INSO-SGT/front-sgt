@@ -1,10 +1,8 @@
 <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg mt-10">
   <!-- Encabezado con botón de agregar área -->
   <div class="flex justify-between mb-6">
-    <button
-      class="bg-blue-800 text-white px-6 py-2 rounded-lg text-lg hover:scale-110 transition duration-150"
-      [routerLink]="'/areas/areas-register'"
-    >
+    <button class="bg-blue-800 text-white px-6 py-2 rounded-lg text-lg hover:scale-110 transition duration-150"
+      [routerLink]="'/areas/areas-register'">
       Agregar Área
     </button>
 
@@ -13,23 +11,15 @@
       <!-- Búsqueda -->
       <div>
         <label class="block text-lg font-medium mb-1">Buscar</label>
-        <input
-          type="text"
-          class="border border-gray-300 rounded-lg w-full px-3 py-2"
-          placeholder="Buscar por nombre"
-          [(ngModel)]="searchQuery"
-          (input)="onSearch()"
-        />
+        <input type="text" class="border border-gray-300 rounded-lg w-full px-3 py-2" placeholder="Buscar por nombre"
+          [(ngModel)]="searchQuery" (input)="onSearch()" />
       </div>
 
       <!-- Mostrar cantidad -->
       <div>
         <label class="block text-lg font-medium mb-1">Mostrar</label>
-        <select
-          class="border border-gray-300 rounded-lg w-full px-3 py-2"
-          [(ngModel)]="itemsPerPage"
-          (change)="paginate()"
-        >
+        <select class="border border-gray-300 rounded-lg w-full px-3 py-2" [(ngModel)]="itemsPerPage"
+          (change)="paginate()">
           <option value="10">10</option>
           <option value="20">20</option>
         </select>
@@ -39,21 +29,16 @@
 
   <!-- Grid de áreas -->
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <div
-      *ngFor="let area of filteredAreas"
-      class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150 relative"
-    >
+    <div *ngFor="let area of filteredAreas"
+      class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition duration-150 relative">
       <p class="text-xl font-semibold">{{ area.name }}</p>
       <p class="text-gray-500 mt-2">{{ area.description }}</p>
       <div class="mt-4 flex justify-around">
-        <button
-          class="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition"
-        >
+        <a [routerLink]="['./edit',area.id]"
+          class="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition">
           Editar
-        </button>
-        <button
-          class="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition"
-        >
+        </a>
+        <button class="bg-blue-800 text-white px-4 py-2 rounded-lg text-sm hover:scale-105 transition" (click)="deleteArea(area.id)">
           Eliminar
         </button>
       </div>
@@ -62,33 +47,21 @@
 
   <!-- Paginación -->
   <div class="flex justify-center mt-6 space-x-2">
-    <button
-      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
-      (click)="goToPage(1)"
-      [disabled]="currentPage === 1"
-    >
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(1)" [disabled]="currentPage === 1">
       &lt;&lt;
     </button>
-    <button
-      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
-      (click)="goToPage(currentPage - 1)"
-      [disabled]="currentPage === 1"
-    >
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1">
       &lt;
     </button>
     <span class="px-3 py-1 text-gray-700">{{ currentPage }}</span>
-    <button
-      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
-      (click)="goToPage(currentPage + 1)"
-      [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)"
-    >
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg" (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)">
       &gt;
     </button>
-    <button
-      class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
+    <button class="bg-gray-200 text-gray-700 px-3 py-1 rounded-lg"
       (click)="goToPage(Math.ceil(filteredAreas.length / itemsPerPage))"
-      [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)"
-    >
+      [disabled]="currentPage >= Math.ceil(filteredAreas.length / itemsPerPage)">
       &gt;&gt;
     </button>
   </div>

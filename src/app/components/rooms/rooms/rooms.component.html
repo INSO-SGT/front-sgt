@@ -37,9 +37,9 @@
       <p class="text-xl font-semibold">{{ room.name }}</p>
       <p class="text-black-500 mt-2">{{ room.address }}</p>
       <p class="text-gray-700 mt-2">Terapéutico: {{ room.isTherapeutic ? 'Sí' : 'No' }}</p>
-      <a [routerLink]="['/rooms/details', room.idRoom]" class="text-blue-600 underline mt-4 block hover:text-blue-900">
-        Ir
-      </a>
+      <button [routerLink]="['/rooms/details', room.idRoom]" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+         Ver detalles
+      </button>
     </div>
   </div>
 

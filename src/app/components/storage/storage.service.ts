@@ -23,7 +23,7 @@ export class StorageService {
   getMaterialsByRoom(roomId: string): Observable<Material[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Material[]>(`http://localhost:8080/api/v1/rooms/${roomId}/materials`, {headers});
+    return this.http.get<Material[]>(`${environment.apiUrl}/rooms/${roomId}/materials`, {headers});
   }
 
   // Desasignar material de una sala
@@ -70,5 +70,10 @@ export class StorageService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete<void>(`${this.apiUrl}/${materialId}`, {headers});
+  }
+  getInterventionAreas(materialId: string): Observable<any>{
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${environment.apiUrl}/intervention-areas/find/${materialId}`, {headers});
   }
 }
