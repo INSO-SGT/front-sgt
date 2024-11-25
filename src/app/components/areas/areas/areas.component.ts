@@ -19,6 +19,7 @@ export class AreasComponent implements OnInit {
   currentPage: number = 1; // Página actual
   itemsPerPage: number = 10; // Número de elementos por página
   searchQuery: string = ''; // Término de búsqueda
+  totalPages: number = 10;
   
   constructor(private areasService: AreasService, private router: Router) {}
 
@@ -41,12 +42,16 @@ export class AreasComponent implements OnInit {
 
   // Aplicar filtros y paginación
   applyFilters(): void {
-    const filtered = this.areas.filter(area =>
-      area.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.filteredAreas = filtered.slice(startIndex, endIndex);
+    let filtered = this.areas;
+    if (this.searchQuery) {
+      filtered = filtered.filter(area => 
+        area.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        area.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
+    this.filteredAreas = filtered;
+    this.totalPages = Math.ceil(this.filteredAreas.length / this.itemsPerPage);
+    this.goToPage(1);
   }
 
   // Búsqueda de áreas por nombre
@@ -66,20 +71,18 @@ export class AreasComponent implements OnInit {
     this.currentPage = page;
     this.applyFilters(); // Actualizar lista basada en la página seleccionada
   }
-  deleteArea(id: string):void{
-    if (id === undefined) {
-      return;
+  deleteArea(id: string): void {
+    if (confirm('¿Estás seguro de que quieres eliminar esta área?')) {
+      this.areasService.deleteArea(id).subscribe(
+        () => {
+          this.loadAreas(); // Recargar las áreas después de eliminar
+        },
+        (error) => {
+          console.error('Error al eliminar el área', error);
+          // Aquí podrías agregar una notificación al usuario
+        }
+      );
     }
-    this.areasService.deleteArea(id).subscribe(
-      () =>{
-        alert('Area eliminada correctamente');
-        this.loadAreas();
-      },
-      (error) => {
-        console.error('Error al eliminar el área', error);
-        alert('Hubo un error al eliminar el área');
-      }
-    )
   }
 
   protected readonly Math = Math; // Permitir uso de Math en el template

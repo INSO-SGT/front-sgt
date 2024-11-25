@@ -1,7 +1,7 @@
 import { Component, Inject, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AreasService } from '../areas.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, Location } from '@angular/common';
 @Component({
   selector: 'app-area-edit',
@@ -24,19 +24,22 @@ export class AreaEditComponent implements OnInit {
   @ViewChild('descriptionInput') descriptionInput: any;
 
   constructor() {
+
     this.areaForm = this.fb.group({
-      name: [''],          
-      description: [''],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.maxLength(500)]]
     });
+    this.areaId = '';
   }
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-  if (idParam) {  
-    this.areaId = idParam;
-    this.loadAreaData();
+    this.areaId = this.route.snapshot.paramMap.get('id') || '';
+    if (this.areaId) {
+      this.loadAreaData();
+    }
   }
-  }
+
+  
 
   onSubmit(): void {
     if (this.areaForm.valid) {
@@ -66,4 +69,5 @@ export class AreaEditComponent implements OnInit {
       }
     );
   }
+  
 }

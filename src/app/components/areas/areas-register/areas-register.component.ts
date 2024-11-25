@@ -14,20 +14,20 @@ import { Router } from "@angular/router";
   styleUrls: ['./areas-register.component.css']
 })
 export class AreasRegisterComponent implements OnInit {
-  areaForm!: FormGroup; // Formulario para el registro del área
-  errorMessage = ''; // Mensaje de error
-  successMessage = ''; // Mensaje de éxito
+  areaForm!: FormGroup;
+  errorMessage = '';
+  successMessage = '';
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private areasRegisterService: AreasRegisterService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.areaForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(5)]],
+    this.areaForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
     });
   }
 
@@ -37,21 +37,27 @@ export class AreasRegisterComponent implements OnInit {
       this.areasRegisterService.registerArea(name, description).subscribe(
         (response) => {
           this.successMessage = 'El área de intervención se ha registrado correctamente.';
-          this.router.navigate(['/areas']); 
+          this.errorMessage = '';
+          setTimeout(() => {
+            this.successMessage = '';
+            this.router.navigate(['/areas']);
+          }, 3000);
         },
         (error) => {
-          this.errorMessage = 'Ocurrió un error al registrar el área.';
+          this.errorMessage = 'Ha ocurrido un error al registrar el área. Por favor, inténtelo de nuevo.';
+          this.successMessage = '';
+          console.error('Error al registrar el área', error);
         }
       );
     } else {
-      this.errorMessage = 'Todos los campos son obligatorios.';
+      this.areaForm.markAllAsTouched();
     }
   }
 
   onCancel(): void {
     const confirmation = confirm('¿Estás seguro de que deseas cancelar el registro?');
     if (confirmation) {
-      this.router.navigate(['/areas']); // Redirigir al listado de áreas
+      this.router.navigate(['/areas']);
     }
   }
 }

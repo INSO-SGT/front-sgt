@@ -7,7 +7,7 @@ import { PatientsService } from "../patients.service";
 @Component({
   selector: 'app-patient-register',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './patient-register.component.html',
   styleUrls: ['./patient-register.component.css']
 })

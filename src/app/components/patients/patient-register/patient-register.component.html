@@ -7,8 +7,15 @@
       <label class="block text-lg font-medium text-gray-700">Nombres</label>
       <input type="text"
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-        formControlName="name" placeholder="Nombres" />
+        formControlName="name" placeholder="Nombres" 
+        [ngClass]="{'border-red-500': patientForm.get('name')?.invalid && patientForm.get('name')?.touched}"
+      />
+      <p class="mt-1 text-sm text-red-600" *ngIf="patientForm.get('name')?.invalid && patientForm.get('name')?.touched">
+        El nombre es requerido y debe tener al menos 2 caracteres.
+      </p>
     </div>
+
+    <!-- El resto del formulario permanece igual -->
 
     <!-- Apellido Paterno y Materno -->
     <div class="flex gap-5 mb-5">
