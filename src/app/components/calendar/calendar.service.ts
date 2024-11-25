@@ -21,11 +21,11 @@ export class CalendarService {
   presence(sessionId: number, therapistPresent: boolean, patientPresent: boolean): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/presence/${sessionId}`, { therapistPresent, patientPresent, headers});
+    return this.http.put<any>(`${this.apiUrl}/presence/${sessionId}`, { therapistPresent, patientPresent}, {headers});
   }
   reprogramSession(sesionId: number, reprogrammingData: any): Observable<any>{
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/update/${sesionId}`, {reprogrammingData, headers});
+    return this.http.put<any>(`${this.apiUrl}/update/${sesionId}`, {reprogrammingData}, {headers});
   }
 }

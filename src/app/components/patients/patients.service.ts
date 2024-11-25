@@ -22,6 +22,6 @@ export class PatientsService {
   createPatient(data: RegisterPatient): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<RegisterPatient>(`${this.apiUrl}/register`, data);
+    return this.http.post<RegisterPatient>(`${this.apiUrl}/register`, data, {headers});
   }
 }

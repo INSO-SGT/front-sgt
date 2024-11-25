@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../enviroment';
 import { Material } from './material';
@@ -14,43 +14,61 @@ export class StorageService {
 
   // Obtener todos los materiales
   getMaterials(): Observable<Material[]> {
-    return this.http.get<Material[]>(`${this.apiUrl}/all`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Material[]>(`${this.apiUrl}/all`, {headers});
   }
 
   // Obtener materiales asignados a una sala específica
   getMaterialsByRoom(roomId: string): Observable<Material[]> {
-    return this.http.get<Material[]>(`http://localhost:8080/api/v1/rooms/${roomId}/materials`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Material[]>(`http://localhost:8080/api/v1/rooms/${roomId}/materials`, {headers});
   }
 
   // Desasignar material de una sala
   unassignMaterialFromRoom(materialId: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {});
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {headers});
   }
 
   // Asignar material a una sala
   assignMaterialToRoom(materialId: string, roomId: number): Observable<void>{
-    return this.http.post<void>(`${this.apiUrl}/${materialId}/assign/${roomId}`, {});
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/assign/${roomId}`, {headers});
   }
 
   // Registrar nuevo material
   registerMaterial(material: Omit<Material, 'idMaterial'>): Observable<Material> {
-    return this.http.post<Material>(`${this.apiUrl}/register`, material);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<Material>(`${this.apiUrl}/register`, material, {headers});
   }
 
   // Editar material
   updateMaterial(id: string, material: Material): Observable<Material> {
-    return this.http.put<Material>(`${this.apiUrl}/update/${id}`, material);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<Material>(`${this.apiUrl}/update/${id}`, material, {headers});
   }
   // Obtener un material por su id
   getMaterialById(id: string): Observable<Material> {
-    return this.http.get<Material>(`${this.apiUrl}/select/${id}`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Material>(`${this.apiUrl}/select/${id}`, {headers});
   }
   // Obtener los materiales que no han sido asignados
   getUnassignedMaterials(): Observable<Material[]>{
-    return this.http.get<Material[]>(`${this.apiUrl}/unassigned`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Material[]>(`${this.apiUrl}/unassigned`, {headers});
   }
   // Eliminar material
   deleteMaterial(materialId: string): Observable<void>{
-    return this.http.delete<void>(`${this.apiUrl}/${materialId}`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<void>(`${this.apiUrl}/${materialId}`, {headers});
   }
 }

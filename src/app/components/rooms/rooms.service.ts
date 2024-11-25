@@ -17,7 +17,7 @@ export class RoomsService {
   registerRoom(room: Room): Observable<Room> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<Room>(`${this.apiUrl}/register`, { room, headers });
+    return this.http.post<Room>(`${this.apiUrl}/register`, { room}, {headers});
   }
 
   // Método para obtener la lista de ambientes
