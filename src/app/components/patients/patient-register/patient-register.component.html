@@ -5,33 +5,24 @@
     <!-- Nombres -->
     <div class="mb-5 relative">
       <label class="block text-lg font-medium text-gray-700">Nombres</label>
-      <input
-        type="text"
+      <input type="text"
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-        formControlName="name"
-        placeholder="Nombres"
-      />
+        formControlName="name" placeholder="Nombres" />
     </div>
 
     <!-- Apellido Paterno y Materno -->
     <div class="flex gap-5 mb-5">
       <div class="w-1/2">
         <label class="block text-lg font-medium text-gray-700">Apellido Paterno</label>
-        <input
-          type="text"
+        <input type="text"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-          formControlName="paternalSurname"
-          placeholder="Apellido Paterno"
-        />
+          formControlName="paternalSurname" placeholder="Apellido Paterno" />
       </div>
       <div class="w-1/2">
         <label class="block text-lg font-medium text-gray-700">Apellido Materno</label>
-        <input
-          type="text"
+        <input type="text"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-          formControlName="maternalSurname"
-          placeholder="Apellido Materno"
-        />
+          formControlName="maternalSurname" placeholder="Apellido Materno" />
       </div>
     </div>
 
@@ -39,20 +30,15 @@
     <div class="flex gap-5 mb-5">
       <div class="w-1/2">
         <label class="block text-lg font-medium text-gray-700">Fecha de Nacimiento</label>
-        <input
-          type="date"
+        <input type="date"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-          formControlName="birthdate"
-        />
+          formControlName="birthdate" />
       </div>
       <div class="w-1/2">
         <label class="block text-lg font-medium text-gray-700">Edad</label>
-        <input
-          type="number"
+        <input type="number"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-          formControlName="age"
-          placeholder="Edad"
-        />
+          formControlName="age" placeholder="Edad" />
       </div>
     </div>
 
@@ -61,10 +47,7 @@
       <label class="block text-lg font-medium text-gray-700">Alergias</label>
       <textarea
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-        formControlName="allergies"
-        placeholder="Alergias"
-        rows="3"
-      ></textarea>
+        formControlName="allergies" placeholder="Alergias" rows="3"></textarea>
     </div>
 
     <!-- Plan -->
@@ -72,79 +55,77 @@
       <label class="block text-lg font-medium text-gray-700">Plan</label>
       <select
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-        formControlName="idPlan"
-      >
+        formControlName="idPlan">
         <option *ngFor="let plan of plans" [value]="plan.id">{{ plan.name }}</option>
       </select>
     </div>
 
+    <!-- Fechas y Horas -->
+    <div formArrayName="sessionDates" *ngIf="isDateTimePickerVisible > 0">
+      <div *ngFor="let session of sessionDates.controls; let i = index" [formGroupName]="i" class="mb-5">
+        <label class="block text-lg font-medium text-gray-700">Fecha {{ i + 1 }}</label>
+        <input type="date"
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+          formControlName="sessionDate" />
+
+        <div class="flex gap-5 mb-5">
+          <div class="w-1/2">
+            <label class="block text-lg font-medium text-gray-700">Hora de Inicio {{ i + 1 }}</label>
+            <input type="time"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+              formControlName="startTime" />
+          </div>
+          <div class="w-1/2">
+            <label class="block text-lg font-medium text-gray-700">Hora de Fin {{ i + 1 }}</label>
+            <input type="time"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+              formControlName="endTime" />
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Tutores -->
     <div formArrayName="tutors" class="mb-5">
       <h2 class="text-lg font-medium text-gray-700 mb-3">Tutores</h2>
-      <div
-        *ngFor="let tutor of tutors.controls; let i = index"
-        [formGroupName]="i"
-        class="border p-4 mb-4 rounded-lg bg-gray-50 shadow-sm"
-      >
+      <div *ngFor="let tutor of tutors.controls; let i = index" [formGroupName]="i"
+        class="border p-4 mb-4 rounded-lg bg-gray-50 shadow-sm">
         <h3 class="font-medium mb-3">Tutor {{ i + 1 }}</h3>
         <div class="mb-3">
           <label class="block text-sm font-medium text-gray-700">Nombre del Tutor</label>
-          <input
-            type="text"
+          <input type="text"
             class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-            formControlName="fullName"
-            placeholder="Nombre del Tutor"
-          />
+            formControlName="fullName" placeholder="Nombre del Tutor" />
         </div>
         <div class="mb-3">
           <label class="block text-sm font-medium text-gray-700">DNI</label>
-          <input
-            type="text"
+          <input type="text"
             class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-            formControlName="dni"
-            placeholder="DNI"
-          />
+            formControlName="dni" placeholder="DNI" />
         </div>
         <div class="mb-3">
           <label class="block text-sm font-medium text-gray-700">Teléfono</label>
-          <input
-            type="tel"
+          <input type="tel"
             class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-            formControlName="phone"
-            placeholder="Teléfono"
-          />
+            formControlName="phone" placeholder="Teléfono" />
         </div>
-        <button
-          type="button"
-          (click)="removeTutor(i)"
-          [disabled]="tutors.length === 1"
-          class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-500 transition"
-        >
+        <button type="button" (click)="removeTutor(i)" [disabled]="tutors.length === 1"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-500 transition">
           Eliminar Tutor
         </button>
       </div>
-      <button
-        type="button"
-        (click)="addTutor()"
-        class="bg-blue-800 text-white px-5 py-2 rounded-lg text-sm hover:bg-blue-700 transition"
-      >
+      <button type="button" (click)="addTutor()"
+        class="bg-blue-800 text-white px-5 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
         Añadir Tutor
       </button>
     </div>
 
     <!-- Botones -->
     <div class="flex gap-5 justify-center mt-10">
-      <button
-        type="submit"
-        class="bg-blue-800 text-white px-5 py-2 rounded-lg text-xl hover:bg-blue-700"
-      >
+      <button type="submit" class="bg-blue-800 text-white px-5 py-2 rounded-lg text-xl hover:bg-blue-700">
         Guardar
       </button>
-      <button
-        type="button"
-        (click)="onCancel()"
-        class="bg-gray-500 text-white px-5 py-2 rounded-lg text-xl hover:bg-gray-400"
-      >
+      <button type="button" (click)="onCancel()"
+        class="bg-gray-500 text-white px-5 py-2 rounded-lg text-xl hover:bg-gray-400">
         Cancelar
       </button>
     </div>
