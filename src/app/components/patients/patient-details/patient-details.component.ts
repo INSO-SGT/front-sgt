@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from '../patients.service';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {NgForOf, NgIf} from "@angular/common";
+import {CommonModule, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-patient-details',
@@ -11,7 +11,8 @@ import {NgForOf, NgIf} from "@angular/common";
   imports: [
     RouterLink,
     NgIf,
-    NgForOf
+    NgForOf,
+    CommonModule
   ]
 })
 export class PatientDetailsComponent implements OnInit {
