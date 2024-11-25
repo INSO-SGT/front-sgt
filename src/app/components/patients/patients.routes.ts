@@ -13,4 +13,16 @@ export default [
       import('./patient-register/patient-register.component').then((m) => m.PatientRegisterComponent),
     data: { breadcrumb: 'Registrar Paciente' },
   },
+  {
+    path: 'details/:id',
+    loadComponent: () =>
+      import('./patient-details/patient-details.component').then((m) => m.PatientDetailsComponent),
+    data: { breadcrumb: 'Detalles de Paciente' },
+  },
+  {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('./patient-edit/patient-edit.component').then((m) => m.PatientEditComponent),
+    data: { breadcrumb: 'Editar Paciente' },
+  },
 ] as Routes;

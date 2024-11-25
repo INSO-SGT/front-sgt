@@ -1,0 +1,81 @@
+<div class="container mx-auto p-8 bg-white rounded-lg shadow-lg mt-12">
+  <!-- Cargando -->
+  <div *ngIf="isLoading" class="text-center text-gray-500">
+    Cargando datos del paciente...
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="!isLoading" (ngSubmit)="savePatient()" class="space-y-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Editar Paciente</h1>
+
+    <div>
+      <label class="block text-lg font-medium text-gray-700">Nombre</label>
+      <input
+        type="text"
+        [(ngModel)]="patient.name"
+        name="name"
+        class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+      />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-lg font-medium text-gray-700">Apellido Paterno</label>
+        <input
+          type="text"
+          [(ngModel)]="patient.paternalSurname"
+          name="paternalSurname"
+          class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        />
+      </div>
+      <div>
+        <label class="block text-lg font-medium text-gray-700">Apellido Materno</label>
+        <input
+          type="text"
+          [(ngModel)]="patient.maternalSurname"
+          name="maternalSurname"
+          class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-lg font-medium text-gray-700">Edad</label>
+        <input
+          type="number"
+          [(ngModel)]="patient.age"
+          name="age"
+          class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        />
+      </div>
+      <div>
+        <label class="block text-lg font-medium text-gray-700">Alergias</label>
+        <input
+          type="text"
+          [(ngModel)]="patient.allergies"
+          name="allergies"
+          class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        />
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-center space-x-4">
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600"
+        [disabled]="isSaving"
+      >
+        Guardar Cambios
+      </button>
+      <button
+        type="button"
+        class="bg-gray-500 text-white px-6 py-3 rounded hover:bg-gray-600"
+        (click)="cancel()"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

@@ -28,15 +28,16 @@ export class PatientsComponent implements OnInit {
   loadPatients(): void {
     this.patientService.getPatients().subscribe(
       (data) => {
-        this.patients = data;
+        this.patients = data || []; // Asegurar que siempre sea un array
         this.filteredPatients = [...this.patients];
       },
       (error) => {
-        if (error.status === 403) {
-          console.error('Acceso denegado: Se requiere rol ADMIN');
-          this.router.navigate(['/login']); // Redirigir al login
-        } else {
-          console.error('Error al obtener los pacientes', error);
+        console.error('Error al obtener los pacientes:', error);
+        if (error.status === 400) {
+          console.error('Solicitud incorrecta. Verifica el modelo.');
+        } else if (error.status === 403) {
+          console.error('Acceso denegado. Redirigiendo al login.');
+          this.router.navigate(['/login']);
         }
       }
     );

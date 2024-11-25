@@ -58,7 +58,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./components/patients/patients.routes').then((m) => m.default),
     canActivate: [authGuard, roleGuard],
-    data: { breadcrumb: 'Pacientes' , roles: ['secretary', 'therapist', 'admin']},
+    data: { breadcrumb: 'Pacientes', roles: ['secretary', 'therapist', 'admin'] },
   },
   {
     path: 'profile',
