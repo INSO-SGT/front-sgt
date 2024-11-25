@@ -5,6 +5,6 @@ export interface Material {
   stock: number;
   esCompleto: boolean;
   esSoporte: boolean;
-  estado: string;  // Tipo enumerado que debe coincidir con el backend (MaterialStatus)
-  fechaAlta?: string;  // Se autogenera en el backend
+  estado: string;  
+  fechaAlta?: string;
 }

@@ -15,4 +15,12 @@ export default [
       ),
     data: { breadcrumb: 'Registrar Área' },
   },
+  {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('./area-edit/area-edit.component').then(
+        (m) => m.AreaEditComponent
+      ),
+    data: { breadcrumb: 'Editar Área' },
+  },
 ] as Routes;

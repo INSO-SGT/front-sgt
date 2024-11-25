@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Component, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { AreasService } from "../areas.service";
 import { FormsModule } from "@angular/forms";
@@ -19,14 +19,14 @@ export class AreasComponent implements OnInit {
   currentPage: number = 1; // Página actual
   itemsPerPage: number = 10; // Número de elementos por página
   searchQuery: string = ''; // Término de búsqueda
-
-  constructor(private areasService: AreasService) {}
+  
+  constructor(private areasService: AreasService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadAreas(); // Cargar áreas al inicializar el componente
+    this.loadAreas();
   }
 
-  // Cargar todas las áreas desde el servicio
+  
   loadAreas(): void {
     this.areasService.getAreas().subscribe(
       (data) => {
@@ -65,6 +65,21 @@ export class AreasComponent implements OnInit {
   goToPage(page: number): void {
     this.currentPage = page;
     this.applyFilters(); // Actualizar lista basada en la página seleccionada
+  }
+  deleteArea(id: string):void{
+    if (id === undefined) {
+      return;
+    }
+    this.areasService.deleteArea(id).subscribe(
+      () =>{
+        alert('Area eliminada correctamente');
+        this.loadAreas();
+      },
+      (error) => {
+        console.error('Error al eliminar el área', error);
+        alert('Hubo un error al eliminar el área');
+      }
+    )
   }
 
   protected readonly Math = Math; // Permitir uso de Math en el template
