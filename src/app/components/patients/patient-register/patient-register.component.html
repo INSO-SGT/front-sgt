@@ -66,24 +66,47 @@
         <label class="block text-lg font-medium text-gray-700">Fecha {{ i + 1 }}</label>
         <input type="date"
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-          formControlName="sessionDate" />
+          formControlName="sessionDate" (change)="onSessionChange(i)" />
 
-        <div class="flex gap-5 mb-5">
+        <div class="flex gap-5">
           <div class="w-1/2">
-            <label class="block text-lg font-medium text-gray-700">Hora de Inicio {{ i + 1 }}</label>
+            <label class="block text-lg font-medium text-gray-700">Hora de Inicio</label>
             <input type="time"
               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-              formControlName="startTime" />
+              formControlName="startTime" (change)="onSessionChange(i)" />
           </div>
           <div class="w-1/2">
-            <label class="block text-lg font-medium text-gray-700">Hora de Fin {{ i + 1 }}</label>
+            <label class="block text-lg font-medium text-gray-700">Hora de Fin</label>
             <input type="time"
               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
-              formControlName="endTime" />
+              formControlName="endTime" (change)="onSessionChange(i)" />
+          </div>
+        </div>
+
+        <div class="flex gap-5 mt-5">
+          <div class="w-1/2">
+            <label class="block text-lg font-medium text-gray-700">Sala</label>
+            <select
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+              formControlName="room">
+              <option [value]="null" disabled>Seleccione una sala</option>
+              <option *ngFor="let room of rooms" [value]="room.idRoom">{{ room.name }}</option>
+            </select>
+          </div>
+          <div class="w-1/2">
+            <label class="block text-lg font-medium text-gray-700">Terapeuta</label>
+            <select
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-800 focus:border-blue-800"
+              formControlName="therapist">
+              <option [value]="null" disabled>Seleccione un terapeuta</option>
+              <option *ngFor="let therapist of therapistsMap.get(i) || []" [value]="therapist.id">{{ therapist.username }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
     </div>
+
     <!-- Tutores -->
     <div formArrayName="tutors" class="mb-5">
       <h2 class="text-lg font-medium text-gray-700 mb-3">Tutores</h2>

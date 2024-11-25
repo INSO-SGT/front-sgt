@@ -12,7 +12,6 @@ export class PatientsService {
   private apiUrl: string = `${environment.apiUrl}/patients`;
 
   constructor(private http: HttpClient) {}
-  
 
   getPatients(): Observable<any[]> {
     const token = localStorage.getItem('token');
@@ -23,5 +22,22 @@ export class PatientsService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<RegisterPatient>(`${this.apiUrl}/register`, data, {headers});
+  }
+  createSession(sessionData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${environment.apiUrl}/sessions/register`, sessionData, {headers});
+  }
+
+  getAllRooms(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${environment.apiUrl}/rooms/all`, {headers});
+  }
+
+  getAvailableTherapists(sessionDate: string, startTime: string, endTime: string): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${environment.apiUrl}/sessions/available-therapists`, {params: { sessionDate, startTime, endTime }, headers});
   }
 }

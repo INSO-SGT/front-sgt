@@ -13,6 +13,9 @@ import { PatientsService } from "../patients.service";
 })
 export class PatientRegisterComponent implements OnInit {
   plans = [{ id: 1, name: 'Plan A' }, { id: 2, name: 'Plan B' }, { id: 3, name: 'Plan C' }, { id: 4, name: 'Plan D' }];
+  rooms: any[] = [];
+  therapistsMap: Map<number, any[]> = new Map();
+
   patientForm!: FormGroup;
   isDateTimePickerVisible: number = 0;
 
@@ -33,12 +36,16 @@ export class PatientRegisterComponent implements OnInit {
       status: [true],
       idPlan: [null, [Validators.required]],
       tutors: this.fb.array([this.createTutor()]),
-      sessionDates: this.fb.array([])
+      sessionDates: this.fb.array([]),
     });
 
-    this.patientForm.get('idPlan')?.valueChanges.subscribe(value => {
-      console.log('Plan seleccionado:', value);
+    this.patientForm.get('idPlan')?.valueChanges.subscribe((value) => {
       this.updateDatePickers(value);
+    });
+
+    this.patientService.getAllRooms().subscribe((rooms) => {
+      console.log('roms')
+      this.rooms = rooms;
     });
   }
 
@@ -58,9 +65,20 @@ export class PatientRegisterComponent implements OnInit {
     });
   }
 
+  createSessionDates(): FormGroup {
+    return this.fb.group({
+      room: ['', Validators.required],
+      therapist: ['', Validators.required],
+      sessionDate: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required],
+    });
+  }
+
   addTutor(): void {
     this.tutors.push(this.createTutor());
   }
+
   removeTutor(index: number): void {
     if (this.tutors.length > 1) {
       this.tutors.removeAt(index);
@@ -68,32 +86,75 @@ export class PatientRegisterComponent implements OnInit {
   }
 
   addSessionDate(): void {
-    this.sessionDates.push(this.fb.group({
-      sessionDate: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
-    }));
+    this.sessionDates.push(this.createSessionDates());
   }
+
   removeSessionDate(index: number): void {
     if (this.sessionDates.length > 1) {
       this.sessionDates.removeAt(index);
     }
   }
 
+  onSessionChange(index: number): void {
+    const session = this.sessionDates.at(index).value;
+    const { sessionDate, startTime, endTime } = session;
+
+    if (sessionDate && startTime && endTime) {
+      this.patientService.getAvailableTherapists(sessionDate, startTime, endTime).subscribe(
+        (therapists) => {
+          console.log(`Therapists for index ${index}:`, therapists);
+          this.therapistsMap.set(index, therapists);
+          this.sessionDates.at(index).get('therapist')?.setValue('');
+        },
+        (error) => {
+          console.error('Error al obtener terapeutas', error);
+        }
+      );
+    }
+  }
 
   onSubmit(): void {
     if (this.patientForm.valid) {
       const formValue = this.patientForm.value;
+
       this.patientService.createPatient(formValue).subscribe(
         (response) => {
-          this.router.navigate(['/patients']);
+          const patientId = response.idPatient;
+          console.log(patientId);
+          const sessionRequests = formValue.sessionDates.map((session: any) => {
+
+            const sessionData = {
+              sessionDate: session.sessionDate,
+              startTime: session.startTime,
+              endTime: session.endTime,
+              therapistId: session.therapist,
+              roomId: session.room,
+              planId: formValue.idPlan,
+              patientId: patientId
+            };
+
+            return this.patientService.createSession(sessionData).toPromise();
+          });
+
+          Promise.all(sessionRequests).then(
+            () => {
+              this.router.navigate(['/patients']);
+            },
+            (error) => {
+              console.error('Error al crear sesiones:', error);
+            }
+          );
         },
         (error) => {
-          console.log('Error al registrar', error);
+          console.error('Error al registrar paciente:', error);
         }
-      )
+      );
     } else {
-      console.log('Formulario no válido');
+      console.error('Formulario no válido');
+      console.log(this.patientForm);
+      Object.keys(this.patientForm.controls).forEach(key => {
+        console.log(key, this.patientForm.controls[key].invalid);
+      });
     }
   }
 
@@ -123,7 +184,6 @@ export class PatientRegisterComponent implements OnInit {
         break;
     }
 
-    // Reset the session dates if the number of pickers changes
     if (this.isDateTimePickerVisible > 0) {
       while (this.sessionDates.length < this.isDateTimePickerVisible) {
         this.addSessionDate();
