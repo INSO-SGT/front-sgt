@@ -25,14 +25,14 @@ export class UsersService {
 
   // Método para obtener usuarios desde el backend
   getUsers(): Observable<any[]> {
-    const token = this.getToken();  // Obtiene el token de forma más directa
+    const token = this.getToken(); 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any[]>(`${this.apiUrl}/all`, { headers });
   }
 
   // Método para obtener un usuario por su ID
   getUserDetails(userId: number): Observable<any> {
-    const token = this.getToken();  // Obtiene el token de forma más directa
+    const token = this.getToken(); 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${this.apiUrl}/select/${userId}`, { headers });
   }
@@ -45,10 +45,9 @@ export class UsersService {
 
   // Método para cerrar sesión
   logout(): void {
-    localStorage.removeItem('token'); // Remueve el token del almacenamiento
+    localStorage.removeItem('token'); 
   }
 
-  // Obtiene el token almacenado en el localStorage
   private getToken(): string | null {
     if (this.isBrowser()) {
       return localStorage.getItem('token');
@@ -56,7 +55,6 @@ export class UsersService {
     return null;
   }
 
-  // Método para verificar si estamos en el navegador o no
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }

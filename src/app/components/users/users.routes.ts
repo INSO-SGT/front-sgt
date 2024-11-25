@@ -8,16 +8,12 @@ export default [
   },
   {
     path: 'register',
-    loadComponent: () =>
-      import('./register/register.component').then(
-        (m) => m.RegisterComponent
-      ),
+    loadComponent: () => import('./register/register.component')
+    .then((m) => m.RegisterComponent),
   },
   {
     path: 'details/:id',
-    loadComponent: () =>
-      import('./users-details/users-details.component').then(
-        (m) => m.UsersDetailsComponent
-      ),
+    loadComponent: () => import('./users-details/users-details.component')
+    .then( (m) => m.UsersDetailsComponent),
   },
 ] as Routes;

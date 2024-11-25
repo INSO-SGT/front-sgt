@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common'
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,15 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso:', response);
         localStorage.setItem('token', response.token);
-        this.router.navigate(['/users']);
+        const decodedToken: any = jwtDecode(response.token);
+        const role = decodedToken.role;
+
+        if(role === 'ADMIN'){
+          this.router.navigate(['/users'])
+        }
+        if(role === 'SECRETARY'){
+          this.router.navigate(['/patients'])
+        }
       },
       error: (error) => {
         console.error('Error en el login:', error);

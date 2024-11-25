@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../enviroment";
 
@@ -12,6 +12,8 @@ export class AreasService {
   constructor(private http: HttpClient) {}
 
   getAreas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/all`);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/all`, {headers});
   }
 }
