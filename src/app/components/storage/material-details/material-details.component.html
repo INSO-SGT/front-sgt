@@ -12,7 +12,7 @@
                 <p class="mt-2">Estado: {{ material?.esSoporte }}</p>
                 <p class="mt-2">¿Cuándo se registró?: {{ material?.fechaAlta | date:'yyyy-MM-dd' }}</p>
             </div>
-        </div>
+        </div>  
     </div>
 
     <div class="mb-6">
@@ -22,17 +22,15 @@
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border-b">Nombre</th>
-                        <th class="py-2 px-4 border-b">Descripción</th>
                         <th class="py-2 px-4 border-b">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let area of interventionAreas">
                         <td class="py-2 px-4 border-b">{{ area.name }}</td>
-                        <td class="py-2 px-4 border-b">{{ area.description }}</td>
                         <td class="py-2 px-4 border-b">
                             <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                (click)="unassignInterArea(area.id)">
+                                (click)="unassignInterArea(area)">
                                 Desasignar
                             </button>
                         </td>
@@ -41,4 +39,54 @@
             </table>
         </div>
     </div>
+
+      <!-- Botón para asignar nuevos materiales -->
+  <div class="mt-6">
+    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600" (click)="openAssignModal()">
+      Asignar Materiales
+    </button>
+  </div>
+
+  <!-- Botón para volver -->
+  <div class="mt-6">
+    <a [routerLink]="['/storage']" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+      Volver a Ambientes
+    </a>
+  </div>
+
+  <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" *ngIf="isAssignInterAreaModalOpen">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full">
+      <h2 class="text-xl font-bold mb-4">Asignar Materiales</h2>
+      <!-- Tabla de materiales -->
+      <div class="overflow-x-auto max-h-60">
+        <table class="min-w-full bg-white border">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b">ID</th>
+              <th class="py-2 px-4 border-b">Nombre</th>
+              <th class="py-2 px-4 border-b">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let area of allInterventionAreas">
+              <td class="py-2 px-4 border-b">{{ area.id}}</td>
+              <td class="py-2 px-4 border-b">{{ area.name }}</td>
+              <td class="py-2 px-4 border-b">
+                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600" *ngIf="material?.idMaterial"
+                  (click)="assignMaterialInterArea(area)">
+                  Asignar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Acciones del modal -->
+      <div class="mt-4 flex justify-end">
+        <button class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2 hover:bg-gray-600" (click)="closeAssignModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

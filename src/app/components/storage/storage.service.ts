@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../enviroment';
 import { Material } from './material';
+import { AreaInterventionResponse } from './areaIntervention';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,12 @@ export class StorageService {
     return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {}, {headers});
   }
 
+    // Desasignar material de una Area de Intervención
+  unassignInterArea(id: string, area: AreaInterventionResponse): Observable<void> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<void>(`${environment.apiUrl}/material-areas/unassignInterArea?materialId=${id}&interventionAreaId=${area.id}`, {headers});
+  }
   // Asignar material a una sala
   assignMaterialToRoom(materialId: string, roomId: number): Observable<void>{
     const token = localStorage.getItem('token');
@@ -75,5 +82,15 @@ export class StorageService {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${environment.apiUrl}/intervention-areas/find/${materialId}`, {headers});
+  }
+  getAllInterventionAreas(): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${environment.apiUrl}/intervention-areas/all`,{headers});
+  }
+  assignMaterialInterArea(materialId: string, interventionAreaId: number): Observable<void> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<void>(`${environment.apiUrl}/material-areas/register?materialId=${materialId}&interventionAreaId=${interventionAreaId}`, {}, { headers });
   }
 }
