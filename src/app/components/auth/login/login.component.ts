@@ -33,6 +33,9 @@ export class LoginComponent {
         if(role === 'SECRETARY'){
           this.router.navigate(['/patients'])
         }
+        if(role === 'THERAPIST'){
+          this.router.navigate(['/calendar'])
+        }
       },
       error: (error) => {
         console.error('Error en el login:', error);
