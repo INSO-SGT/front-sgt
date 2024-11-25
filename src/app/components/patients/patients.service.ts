@@ -45,7 +45,7 @@ export class PatientsService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`${this.apiUrl}/select/${patientId}`, { headers });
   }
-  updatePatient(patientId: number, patientData: any): Observable<any> {
+  updatePatient(patientId: number, patientData: RegisterPatient): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put<any>(`${this.apiUrl}/select/${patientId}`, patientData, { headers });

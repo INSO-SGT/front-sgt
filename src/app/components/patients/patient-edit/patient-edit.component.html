@@ -12,9 +12,10 @@
       <label class="block text-lg font-medium text-gray-700">Nombre</label>
       <input
         type="text"
-        [(ngModel)]="patient.name"
+        [(ngModel)]="patient!.name"
         name="name"
         class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        required
       />
     </div>
 
@@ -23,16 +24,17 @@
         <label class="block text-lg font-medium text-gray-700">Apellido Paterno</label>
         <input
           type="text"
-          [(ngModel)]="patient.paternalSurname"
+          [(ngModel)]="patient!.paternalSurname"
           name="paternalSurname"
           class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+          required
         />
       </div>
       <div>
         <label class="block text-lg font-medium text-gray-700">Apellido Materno</label>
         <input
           type="text"
-          [(ngModel)]="patient.maternalSurname"
+          [(ngModel)]="patient!.maternalSurname"
           name="maternalSurname"
           class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
         />
@@ -44,20 +46,32 @@
         <label class="block text-lg font-medium text-gray-700">Edad</label>
         <input
           type="number"
-          [(ngModel)]="patient.age"
+          [(ngModel)]="patient!.age"
           name="age"
           class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+          required
         />
       </div>
       <div>
         <label class="block text-lg font-medium text-gray-700">Alergias</label>
         <input
           type="text"
-          [(ngModel)]="patient.allergies"
+          [(ngModel)]="patient!.allergies"
           name="allergies"
           class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
         />
       </div>
+    </div>
+
+    <div>
+      <label class="block text-lg font-medium text-gray-700">Fecha de Nacimiento</label>
+      <input
+        type="date"
+        [(ngModel)]="patient!.birthDate"
+        name="birthDate"
+        class="block w-full px-4 py-2 border-gray-300 rounded-lg shadow-sm"
+        required
+      />
     </div>
 
     <!-- Botones -->

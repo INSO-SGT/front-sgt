@@ -46,6 +46,10 @@ export class PatientDetailsComponent implements OnInit {
 
   // Método para redirigir al formulario de edición
   editPatient(): void {
+    if (!this.patient) {
+      console.error('El paciente no está cargado.');
+      return;
+    }
     this.router.navigate(['/patients/edit', this.patient.idPatient]);
   }
 }
