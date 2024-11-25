@@ -30,14 +30,14 @@ export class StorageService {
   unassignMaterialFromRoom(materialId: string): Observable<void> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {headers});
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/unassign`, {}, {headers});
   }
 
   // Asignar material a una sala
   assignMaterialToRoom(materialId: string, roomId: number): Observable<void>{
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<void>(`${this.apiUrl}/${materialId}/assign/${roomId}`, {headers});
+    return this.http.post<void>(`${this.apiUrl}/${materialId}/assign/${roomId}`, {},{headers});
   }
 
   // Registrar nuevo material
